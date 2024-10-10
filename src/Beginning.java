@@ -2,6 +2,12 @@ package src;
 
 public class Beginning {
     static void GameRules(){
+        System.out.println("------ press |1|  to start the Game ");
+        System.out.println("------ press |0|  to exit the Game ");
+    }
+    static void Intro(){
+        System.out.println();
+        System.out.println();
         System.out.println("|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|         Welcome to TradeOff         |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| \n");
         System.out.println();
         System.out.println();
