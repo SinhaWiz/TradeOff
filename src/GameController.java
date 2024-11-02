@@ -153,7 +153,7 @@ public class GameController {
         String ticker = scanner.next().toUpperCase();
 
         System.out.print("Enter quantity: ");
-        int quantity = scanner.nextInt();
+        double quantity = scanner.nextDouble();
 
         Optional<Coin> selectedCoin = market.getCoins().stream()
                 .filter(c -> c.getTicker().equals(ticker))
