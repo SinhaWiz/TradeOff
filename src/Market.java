@@ -61,7 +61,7 @@ public class Market {
     }
 
     public List<Coin> getCoins() {
-        return List.of();
+        return coins;
     }
 
     // ... (rest of the Market class methods remain the same)
