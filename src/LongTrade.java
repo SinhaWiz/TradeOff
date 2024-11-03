@@ -2,6 +2,7 @@ package src;
 
 public class LongTrade extends Trade{
     private double entryPrice;
+    private Player player;
 
     public LongTrade(Coin coin,double quantity)
     {
@@ -12,8 +13,18 @@ public class LongTrade extends Trade{
     public void executeTrade() {
         if(isOpen())
         {
-            System.out.println("LongTrade is open: "+"Executing longTrade for "+ quantity +" of" + coin.getName()+"at "+ entryPrice);
-            // wallet update logic will be updated
+            double  totalCost=quantity*entryPrice;
+            if(player.getBalance()>=totalCost)
+            {
+                player.updateBalance(-totalCost);
+                player.addToPortfolio(coin,quantity);
+                System.out.println("LongTrade is open: "+"Executing longTrade for "+ quantity +" of" + coin.getName()+"at "+ entryPrice);
+            }
+            else
+            {
+                System.out.println("Insufficient balance");
+            }
+            
         }
         else
         {
@@ -36,7 +47,7 @@ public class LongTrade extends Trade{
             isOpen = false;
             System.out.println("Closing LongTrade for "+quantity+" of "+coin.getName());
             System.out.println("Total gain/loss: "+ calcGainLoss());
-            //update Player Balance method will be updated
+            player.updateBalance(calcGainLoss());
         }
         else
         {
