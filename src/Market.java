@@ -9,13 +9,11 @@ public class Market {
     private static final String INITIAL_PRICES_FILE = "initial_prices.txt";
     private static final String PRICE_HISTORY_FILE = "price_history.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
     public Market() {
         this.coins = new ArrayList<>();
         this.random = new Random();
         loadInitialPrices();
     }
-
     private void loadInitialPrices() {
         try (BufferedReader reader = new BufferedReader(new FileReader(INITIAL_PRICES_FILE))) {
             String line;
@@ -39,7 +37,7 @@ public class Market {
 
     public void simulateMarketMovement() {
         for (Coin coin : coins) {
-            double change = (random.nextDouble() - 0.5) * 0.1; // -5% to +5% change
+            double change = (random.nextDouble() - 0.5) * 0.1;
             double newPrice = coin.getPrice() * (1 + change);
             coin.updatePrice(newPrice);
         }
@@ -64,5 +62,5 @@ public class Market {
         return coins;
     }
 
-    // ... (rest of the Market class methods remain the same)
+
 }

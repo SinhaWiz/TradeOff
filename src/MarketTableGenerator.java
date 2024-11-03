@@ -3,7 +3,7 @@ import java.util.List;
 
 public class MarketTableGenerator {
     public void generatePriceTable() {
-        // Implementation for generating price table
+
     }
 
     public double getPriceChange(double oldPrice, double newPrice) {

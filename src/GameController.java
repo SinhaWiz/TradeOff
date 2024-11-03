@@ -1,5 +1,4 @@
 package src;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -7,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Scanner;
-
 public class GameController {
     private static Player player;
     private static Market market;
@@ -17,7 +15,6 @@ public class GameController {
     private static Scanner scanner;
     private static int turnsRemaining;
     private static final int MAX_TURNS = 10;
-
     public GameController() {
         this.player = new Player(100000); // Start with $100,000
         this.market = new Market();
@@ -27,7 +24,6 @@ public class GameController {
         this.scanner = new Scanner(System.in);
         this.turnsRemaining = MAX_TURNS;
     }
-
     public static void startGame() {
         System.out.println();
         System.out.println();
@@ -39,7 +35,6 @@ public class GameController {
                 "Because of this short deadline you have chosen using crypto currency to earn these money ASAP");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
         tableGenerator.displayTable(market.getCoins());
-
         while (turnsRemaining > 0) {
             System.out.println("\nTurns remaining: " + turnsRemaining);
             displayMenu();
@@ -48,12 +43,9 @@ public class GameController {
             saveGameState();
             turnsRemaining--;
         }
-
         displayFinalResults();
     }
-
     private static void displayMenu() {
-
         System.out.println("1. View Market");
         System.out.println("2. View Portfolio");
         System.out.println("3. Open Long Position");
@@ -62,7 +54,6 @@ public class GameController {
         System.out.println("6. Skip Turn");
         System.out.println("Balance: $" + String.format("%.2f", player.getBalance()));
     }
-
     private static void handleAction() {
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
@@ -91,15 +82,12 @@ public class GameController {
                 skipTurn();
         }
     }
-
     private static void displayPortfolio() {
     }
-
     private static void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
         // Existing positions will be affected by market movement
     }
-
     private static void saveGameState() {
         try (FileWriter writer = new FileWriter("game_state.txt", true)) {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -107,7 +95,6 @@ public class GameController {
             writer.write("Turns Remaining: " + turnsRemaining + "\n");
             writer.write("Player Balance: $" + String.format("%.2f", player.getBalance()) + "\n");
             writer.write("Current Positions:\n");
-
             for (Trade trade : positions.viewCurrentPositions()) {
                 writer.write(String.format("%s position: %d %s at %.2f\n",
                         trade.getClass().getSimpleName(),
@@ -115,7 +102,6 @@ public class GameController {
                         trade.coin.getTicker(),
                         trade.coin.getPrice()));
             }
-
             writer.write("Current Market Prices:\n");
             for (Coin coin : market.getCoins()) {
                 writer.write(String.format("%s (%s): $%.2f\n",
@@ -128,13 +114,11 @@ public class GameController {
             System.out.println("Error saving game state.");
         }
     }
-
     private static void displayFinalResults() {
         System.out.println("\n=== Game Over ===");
         System.out.println("Final Balance: $" + String.format("%.2f", player.getBalance()));
         System.out.println("Final Portfolio:");
         displayPortfolio();
-
         try (FileWriter writer = new FileWriter("final_results.txt")) {
             writer.write("=== Final Game Results ===\n");
             writer.write("Final Balance: $" + String.format("%.2f", player.getBalance()) + "\n");
@@ -151,25 +135,19 @@ public class GameController {
             System.out.println("Error saving final results.");
         }
     }
-
     private static void openLongPosition() {
         System.out.println("\nAvailable coins:");
         tableGenerator.displayTable(market.getCoins());
-
         System.out.print("Enter coin ticker: ");
         String ticker = scanner.next().toUpperCase();
-
         System.out.print("Enter quantity: ");
         double quantity = scanner.nextDouble();
-
         Optional<Coin> selectedCoin = market.getCoins().stream()
                 .filter(c -> c.getTicker().equals(ticker))
                 .findFirst();
-
         if (selectedCoin.isPresent()) {
             Coin coin = selectedCoin.get();
             double totalCost = coin.getPrice() * quantity;
-
             if (totalCost <= player.getBalance()) {
                 positions.openLongPosition(coin, quantity, coin.getPrice());
                 player.updateBalance(-totalCost);
