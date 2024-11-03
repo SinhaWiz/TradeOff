@@ -18,8 +18,16 @@ public class TradeRecord implements Serializable {
     }
 
     // Getters
-    public String getType() { return type; }
-    public String getCoinTicker() { return coinTicker; }
-    public double getQuantity() { return quantity; }
-    public double getEntryPrice() { return entryPrice; }
+    public String getType() {
+        return type;
+    }
+    public String getCoinTicker() {
+        return coinTicker;
+    }
+    public double getQuantity() {
+        return quantity;
+    }
+    public double getEntryPrice() {
+        return entryPrice;
+    }
 }
