@@ -26,4 +26,8 @@ public abstract class Trade {
     public double getEntryPrice() {
         return entryPrice;
     }
+
+    public int getLeverage() {
+        return leverage;
+    }
 }
