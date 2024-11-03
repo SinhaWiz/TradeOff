@@ -1,6 +1,7 @@
 package src;
 public class Main {
     public static void main(String[] args) {
-        Beginning.GameRules();
+        GameController gameController = new GameController();
+        gameController.startGame();
     }
 }
