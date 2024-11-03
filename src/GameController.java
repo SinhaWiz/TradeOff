@@ -29,7 +29,14 @@ public class GameController {
     }
 
     public static void startGame() {
-        System.out.println("Welcome to Crypto Trading Game!");
+        System.out.println();
+        System.out.println();
+        System.out.println("|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|         Welcome to TradeOff         |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| \n");
+        System.out.println();
+        System.out.println();
+        System.out.println("You are broke . Now you have taken $1 million from Loan Sharks. " + "\n"+
+                "You have to pay them $5 million dollars within 10 days ."+"\n"+ "If you don't the consequences will be beyond your imagination" +"\n"+
+                "Because of this short deadline you have chosen using crypto currency to earn these money ASAP");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
         tableGenerator.displayTable(market.getCoins());
 
@@ -46,14 +53,7 @@ public class GameController {
     }
 
     private static void displayMenu() {
-        System.out.println();
-        System.out.println();
-        System.out.println("|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|         Welcome to TradeOff         |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| \n");
-        System.out.println();
-        System.out.println();
-        System.out.println("You are broke . Now you have taken $1 million from Loan Sharks. " + "\n"+
-                "You have to pay them $5 million dollars within 10 days ."+"\n"+ "If you don't the consequences will be beyond your imagination" +"\n"+
-                "Because of this short deadline you have chosen using crypto currency to earn these money ASAP");
+
         System.out.println("1. View Market");
         System.out.println("2. View Portfolio");
         System.out.println("3. Open Long Position");
