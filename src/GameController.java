@@ -17,7 +17,7 @@ public class GameController {
     private MarketTableGenerator tableGenerator;
     private Scanner scanner;
     private int turnsRemaining;
-    private static final int MAX_TURNS = 1000;
+    private static final int MAX_TURNS = 160;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
