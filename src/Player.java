@@ -27,4 +27,14 @@ public class Player {
     public void addToPortfolio(Coin coin, double amount) {
         portfolio.merge(coin, amount, Double::sum);
     }
+
+    public void removeFromPortfolio(Coin coin, double amount) {
+        double currentAmount = portfolio.getOrDefault(coin, 0.0);
+        if (currentAmount <= amount) {
+            portfolio.remove(coin);
+        } else {
+            portfolio.put(coin, currentAmount );
+            portfolio.put(coin, currentAmount - amount);
+        }
+    }
 }
