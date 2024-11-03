@@ -57,12 +57,12 @@ public class GameController {
 
     private void displayMenu() {
         System.out.println("\n=== MENU ===");
-        // System.out.println("1. View Market");
-        System.out.println("1. View Portfolio");
-        System.out.println("2. Open Long Position");
-        System.out.println("3. Open Short Position");
-        System.out.println("4. Close Position");
-        System.out.println("5. Skip Turn");
+        System.out.println("1. View Market");
+        System.out.println("2. View Portfolio");
+        System.out.println("3. Open Long Position");
+        System.out.println("4. Open Short Position");
+        System.out.println("5. Close Position");
+        System.out.println("6. Skip Turn");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
