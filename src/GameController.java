@@ -17,7 +17,7 @@ public class GameController {
     private MarketTableGenerator tableGenerator;
     private Scanner scanner;
     private int turnsRemaining;
-    private static final int MAX_TURNS = 10;
+    private static final int MAX_TURNS = 160;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -33,6 +33,7 @@ public class GameController {
         displayWelcomeMessage();
         while (turnsRemaining > 0) {
             System.out.println("\nTurns remaining: " + turnsRemaining);
+            tableGenerator.displayTable(market.getCoins());
             displayMenu();
             boolean turnUsed = handleAction();
             if(turnUsed) {
@@ -52,17 +53,16 @@ public class GameController {
         System.out.println("If you don't, the consequences will be beyond your imagination.");
         System.out.println("Because of this short deadline, you have chosen using cryptocurrency to earn these money ASAP.\n");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
-        tableGenerator.displayTable(market.getCoins());
     }
 
     private void displayMenu() {
         System.out.println("\n=== MENU ===");
-        System.out.println("1. View Market");
-        System.out.println("2. View Portfolio");
-        System.out.println("3. Open Long Position");
-        System.out.println("4. Open Short Position");
-        System.out.println("5. Close Position");
-        System.out.println("6. Skip Turn");
+        // System.out.println("1. View Market");
+        System.out.println("1. View Portfolio");
+        System.out.println("2. Open Long Position");
+        System.out.println("3. Open Short Position");
+        System.out.println("4. Close Position");
+        System.out.println("5. Skip Turn");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -90,6 +90,36 @@ public class GameController {
             default:
                 System.out.println("Invalid choice!Please try again.");
                 return false;
+        }
+    }
+
+    private void displayPositions() {
+        List<Trade> currentPositions = positions.getPositions();
+        if (currentPositions.isEmpty()) {
+            System.out.println("No positions to close!");
+            return;
+        }
+
+        System.out.println("\nCurrent Positions:");
+        for (int i = 0; i < currentPositions.size(); i++) {
+            Trade trade = currentPositions.get(i);
+            if (trade instanceof LongTrade) {
+                System.out.printf("%d. %dX Long: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                        i + 1,
+                        trade.getLeverage(),
+                        trade.getQuantity(),
+                        trade.getCoin().getTicker(),
+                        trade.getEntryPrice(),
+                        trade.calcGainLoss());
+            } else if (trade instanceof ShortTrade) {
+                System.out.printf("%d. %dX Short: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                        i + 1,
+                        trade.getLeverage(),
+                        trade.getQuantity(),
+                        trade.getCoin().getTicker(),
+                        trade.getEntryPrice(),
+                        trade.calcGainLoss());
+            }
         }
     }
 
@@ -122,6 +152,33 @@ public class GameController {
                 .findFirst();
 
         if (selectedCoin.isPresent()) {
+            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 100x   6. No Leverage");
+            int leverage = 0;
+            int leverageOption = scanner.nextInt();
+            switch(leverageOption) {
+                case 1:
+                    leverage = 2;
+                    break;
+                case 2:
+                    leverage = 5;
+                    break;
+                case 3:
+                    leverage = 10;
+                    break;
+                case 4:
+                    leverage = 25;
+                    break;
+                case 5:
+                    leverage = 100;
+                    break;
+                case 6:
+                    leverage = 1;
+                    break;
+                default:
+                    System.out.println("Invalid choice! Select Again.");
+                    leverageOption = scanner.nextInt();
+            }
+
             System.out.print("Enter quantity: ");
             double quantity = scanner.nextDouble();
             if (quantity <= 0) {
@@ -130,11 +187,12 @@ public class GameController {
             }
 
             Coin coin = selectedCoin.get();
-            double totalCost = coin.getPrice() * quantity;
+            double totalCost = coin.getPrice() * quantity * leverage;
+            double tradingAmount = coin.getPrice() * quantity;
 
             if (totalCost <= player.getBalance()) {
-                positions.openLongPosition(coin, quantity, coin.getPrice());
-                player.updateBalance(-totalCost);
+                positions.openLongPosition(coin, quantity, coin.getPrice(), leverage);
+                player.updateBalance(-tradingAmount);
                 player.addToPortfolio(coin, quantity);
                 System.out.println("Long position opened successfully!");
                 return true;
@@ -160,6 +218,33 @@ public class GameController {
                 .findFirst();
 
         if (selectedCoin.isPresent()) {
+            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 100x   6. No Leverage");
+            int leverage = 0;
+            int leverageOption = scanner.nextInt();
+            switch(leverageOption) {
+                case 1:
+                    leverage = 2;
+                    break;
+                case 2:
+                    leverage = 5;
+                    break;
+                case 3:
+                    leverage = 10;
+                    break;
+                case 4:
+                    leverage = 25;
+                    break;
+                case 5:
+                    leverage = 100;
+                    break;
+                case 6:
+                    leverage = 1;
+                    break;
+                default:
+                    System.out.println("Invalid choice! Select Again.");
+                    leverageOption = scanner.nextInt();
+            }
+
             System.out.print("Enter quantity: ");
             double quantity = scanner.nextDouble();
             if (quantity <= 0) {
@@ -168,11 +253,12 @@ public class GameController {
             }
 
             Coin coin = selectedCoin.get();
-            double collateral = coin.getPrice() * quantity * 0.5; // 50% collateral required
+            double collateral = coin.getPrice() * quantity * 0.5 * leverage; // 50% collateral required
+            double tradingAmount = coin.getPrice() * quantity;
 
             if (collateral <= player.getBalance()) {
-                positions.openShortPosition(coin, quantity, coin.getPrice());
-                player.updateBalance(-collateral);
+                positions.openShortPosition(coin, quantity, coin.getPrice(), leverage);
+                player.updateBalance(-tradingAmount);
                 System.out.println("Short position opened successfully!");
                 return true;
             } else {
@@ -186,7 +272,7 @@ public class GameController {
     }
 
     private void closePosition() {
-        List<Trade> currentPositions = positions.viewCurrentPositions();
+        List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
             System.out.println("No positions to close!");
             return;
@@ -195,13 +281,21 @@ public class GameController {
         System.out.println("\nCurrent Positions:");
         for (int i = 0; i < currentPositions.size(); i++) {
             Trade trade = currentPositions.get(i);
-            System.out.printf("%d. %s position: %.4f %s at $%.2f (P/L: $%.2f)\n",
-                    i + 1,
-                    trade.getClass().getSimpleName(),
-                    trade.getQuantity(),
-                    trade.getCoin().getTicker(),
-                    trade.getEntryPrice(),
-                    trade.calcGainLoss());
+            if (trade instanceof LongTrade) {
+                System.out.printf("%d. Long Position: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                        i + 1,
+                        trade.getQuantity(),
+                        trade.getCoin().getTicker(),
+                        trade.getEntryPrice(),
+                        trade.calcGainLoss());
+            } else if (trade instanceof ShortTrade) {
+                System.out.printf("%d. Short Position: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                        i + 1,
+                        trade.getQuantity(),
+                        trade.getCoin().getTicker(),
+                        trade.getEntryPrice(),
+                        trade.calcGainLoss());
+            }
         }
 
         System.out.print("Enter position number to close (1-" + currentPositions.size() + "): ");
@@ -209,18 +303,20 @@ public class GameController {
 
         if (choice >= 0 && choice < currentPositions.size()) {
             Trade trade = currentPositions.get(choice);
-            double gainLoss = trade.calcGainLoss();
-            player.updateBalance(gainLoss);
+            double closingAmount = trade.calcGainLoss() + (trade.getEntryPrice() * trade.getQuantity());
+            player.updateBalance(closingAmount);
 
+            /*
             if (trade instanceof LongTrade) {
                 player.removeFromPortfolio(trade.getCoin(), trade.getQuantity());
             } else if (trade instanceof ShortTrade) {
 
                 player.updateBalance(trade.getCoin().getPrice() * trade.getQuantity() * 0.5);
             }
+            */
 
             positions.closePosition(choice);
-            System.out.printf("Position closed. Profit/Loss: $%.2f\n", gainLoss);
+            System.out.printf("Position closed. Profit/Loss: $%.2f\n", trade.calcGainLoss());
         } else {
             System.out.println("Invalid position number!");
         }
@@ -231,14 +327,14 @@ public class GameController {
     }
 
     private void updatePositions() {
-        for (Trade trade : positions.viewCurrentPositions()) {
+        for (Trade trade : positions.getPositions()) {
             // Update unrealized P/L
             double gainLoss = trade.calcGainLoss();
             // Check for liquidation in short positions
             if (trade instanceof ShortTrade && gainLoss < -player.getBalance()) {
                 System.out.println("WARNING: Short position liquidated due to insufficient funds!");
-                positions.closePosition(positions.viewCurrentPositions().indexOf(trade));
-                player.updateBalance(gainLoss);
+                positions.closePosition(positions.getPositions().indexOf(trade));
+                player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
             }
         }
     }
@@ -251,7 +347,7 @@ public class GameController {
             writer.write("Player Balance: $" + String.format("%.2f", player.getBalance()) + "\n");
             writer.write("Current Positions:\n");
 
-            for (Trade trade : positions.viewCurrentPositions()) {
+            for (Trade trade : positions.getPositions()) {
                 writer.write(String.format("%s position: %.4f %s at $%.2f (P/L: $%.2f)\n",
                         trade.getClass().getSimpleName(),
                         trade.getQuantity(),

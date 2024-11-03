@@ -2,11 +2,13 @@ public abstract class Trade {
     protected double quantity;
     protected Coin coin;
     protected double entryPrice;
+    protected int leverage;
 
-    public Trade(Coin coin, double quantity, double entryPrice) {
+    public Trade(Coin coin, double quantity, double entryPrice, int leverage) {
         this.coin = coin;
         this.quantity = quantity;
         this.entryPrice = entryPrice;
+        this.leverage = leverage;
     }
 
     public abstract double calcGainLoss();
@@ -22,4 +24,9 @@ public abstract class Trade {
     public double getEntryPrice() {
         return entryPrice;
     }
+
+    public int getLeverage() {
+        return leverage;
+    }
 }
+
