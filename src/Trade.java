@@ -1,10 +1,10 @@
 package src;
 
 public abstract class Trade {
-    protected int quantity;
+    protected double quantity;
     protected Coin coin;
 
-    public Trade(Coin coin, int quantity) {
+    public Trade(Coin coin, double quantity) {
         this.coin = coin;
         this.quantity = quantity;
     }

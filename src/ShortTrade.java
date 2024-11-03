@@ -3,7 +3,7 @@ package src;
 public class ShortTrade extends Trade {
     private double sellPrice;
 
-    public ShortTrade(Coin coin, int quantity, double sellPrice) {
+    public ShortTrade(Coin coin, double quantity, double sellPrice) {
         super(coin, quantity);
         this.sellPrice = sellPrice;
     }

@@ -11,11 +11,11 @@ public class PositionManager {
         this.positions = new ArrayList<>();
     }
 
-    public void openLongPosition(Coin coin, int quantity, double price) {
-        positions.add(new LongTrade(coin, quantity, price));
+    public void openLongPosition(Coin coin, double quantity, double price) {
+//        positions.add(new LongTrade(coin, quantity, price));
     }
 
-    public void openShortPosition(Coin coin, int quantity, double price) {
+    public void openShortPosition(Coin coin, double quantity, double price) {
         positions.add(new ShortTrade(coin, quantity, price));
     }
 
