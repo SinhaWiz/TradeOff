@@ -9,13 +9,13 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class GameController {
-    private Player player;
-    private Market market;
-    private PositionManager positions;
+    private static Player player;
+    private static Market market;
+    private static PositionManager positions;
     private SaveManager saveManager;
-    private MarketTableGenerator tableGenerator;
-    private Scanner scanner;
-    private int turnsRemaining;
+    private static MarketTableGenerator tableGenerator;
+    private static Scanner scanner;
+    private static int turnsRemaining;
     private static final int MAX_TURNS = 10;
 
     public GameController() {
@@ -28,7 +28,7 @@ public class GameController {
         this.turnsRemaining = MAX_TURNS;
     }
 
-    public void startGame() {
+    public static void startGame() {
         System.out.println("Welcome to Crypto Trading Game!");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
         tableGenerator.displayTable(market.getCoins());
@@ -45,8 +45,15 @@ public class GameController {
         displayFinalResults();
     }
 
-    private void displayMenu() {
-        System.out.println("\n=== Crypto Trading Game ===");
+    private static void displayMenu() {
+        System.out.println();
+        System.out.println();
+        System.out.println("|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|         Welcome to TradeOff         |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| \n");
+        System.out.println();
+        System.out.println();
+        System.out.println("You are broke . Now you have taken $1 million from Loan Sharks. " + "\n"+
+                "You have to pay them $5 million dollars within 10 days ."+"\n"+ "If you don't the consequences will be beyond your imagination" +"\n"+
+                "Because of this short deadline you have chosen using crypto currency to earn these money ASAP");
         System.out.println("1. View Market");
         System.out.println("2. View Portfolio");
         System.out.println("3. Open Long Position");
@@ -56,7 +63,7 @@ public class GameController {
         System.out.println("Balance: $" + String.format("%.2f", player.getBalance()));
     }
 
-    private void handleAction() {
+    private static void handleAction() {
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
 
@@ -85,15 +92,15 @@ public class GameController {
         }
     }
 
-    private void displayPortfolio() {
+    private static void displayPortfolio() {
     }
 
-    private void skipTurn() {
+    private static void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
         // Existing positions will be affected by market movement
     }
 
-    private void saveGameState() {
+    private static void saveGameState() {
         try (FileWriter writer = new FileWriter("game_state.txt", true)) {
             String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             writer.write("\n=== Game State at " + timestamp + " ===\n");
@@ -122,7 +129,7 @@ public class GameController {
         }
     }
 
-    private void displayFinalResults() {
+    private static void displayFinalResults() {
         System.out.println("\n=== Game Over ===");
         System.out.println("Final Balance: $" + String.format("%.2f", player.getBalance()));
         System.out.println("Final Portfolio:");
@@ -145,7 +152,7 @@ public class GameController {
         }
     }
 
-    private void openLongPosition() {
+    private static void openLongPosition() {
         System.out.println("\nAvailable coins:");
         tableGenerator.displayTable(market.getCoins());
 
