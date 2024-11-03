@@ -35,11 +35,13 @@ public class GameController {
             System.out.println("\nTurns remaining: " + turnsRemaining);
             tableGenerator.displayTable(market.getCoins());
             displayMenu();
-            handleAction();
-            market.simulateMarketMovement();
-            updatePositions();
-            saveGameState();
-            turnsRemaining--;
+            boolean turnUsed = handleAction();
+            if(turnUsed) {
+                market.simulateMarketMovement();
+                updatePositions();
+                saveGameState();
+                turnsRemaining--;
+            }
         }
         displayFinalResults();
     }
@@ -64,30 +66,30 @@ public class GameController {
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
-    private void handleAction() {
+    private boolean handleAction() {
         System.out.print("Enter your choice: ");
         int choice = scanner.nextInt();
 
         switch (choice) {
             case 1:
-//                displayPortfolio();
-                displayPositions();
-                break;
+                tableGenerator.displayTable(market.getCoins());
+                return false;
             case 2:
-                openLongPosition();
-                break;
+                displayPortfolio();
+                return false;
             case 3:
-                openShortPosition();
-                break;
+                return openLongPosition();
             case 4:
-                closePosition();
-                break;
+                return openShortPosition();
             case 5:
+                closePosition();
+                return false;
+            case 6:
                 skipTurn();
-                break;
+                return true;
             default:
-                System.out.println("Invalid choice! Turn skipped.");
-                skipTurn();
+                System.out.println("Invalid choice!Please try again.");
+                return false;
         }
     }
 
@@ -138,7 +140,7 @@ public class GameController {
         }
     }
 
-    private void openLongPosition() {
+    private boolean openLongPosition() {
         System.out.println("\nAvailable coins:");
         tableGenerator.displayTable(market.getCoins());
 
@@ -179,6 +181,11 @@ public class GameController {
 
             System.out.print("Enter quantity: ");
             double quantity = scanner.nextDouble();
+            if (quantity <= 0) {
+                System.out.println("Quantity must be positive!");
+                return false;
+            }
+
             Coin coin = selectedCoin.get();
             double totalCost = coin.getPrice() * quantity * leverage;
             double tradingAmount = coin.getPrice() * quantity;
@@ -188,15 +195,18 @@ public class GameController {
                 player.updateBalance(-tradingAmount);
                 player.addToPortfolio(coin, quantity);
                 System.out.println("Long position opened successfully!");
+                return true;
             } else {
                 System.out.println("Insufficient funds!");
+                return false;
             }
         } else {
             System.out.println("Invalid coin ticker!");
+            return false;
         }
     }
 
-    private void openShortPosition() {
+    private boolean openShortPosition() {
         System.out.println("\nAvailable coins:");
         tableGenerator.displayTable(market.getCoins());
 
@@ -237,6 +247,11 @@ public class GameController {
 
             System.out.print("Enter quantity: ");
             double quantity = scanner.nextDouble();
+            if (quantity <= 0) {
+                System.out.println("Quantity must be positive!");
+                return false;
+            }
+
             Coin coin = selectedCoin.get();
             double collateral = coin.getPrice() * quantity * 0.5 * leverage; // 50% collateral required
             double tradingAmount = coin.getPrice() * quantity;
@@ -245,11 +260,14 @@ public class GameController {
                 positions.openShortPosition(coin, quantity, coin.getPrice(), leverage);
                 player.updateBalance(-tradingAmount);
                 System.out.println("Short position opened successfully!");
+                return true;
             } else {
                 System.out.println("Insufficient collateral!");
+                return false;
             }
         } else {
             System.out.println("Invalid coin ticker!");
+            return false;
         }
     }
 
@@ -292,7 +310,7 @@ public class GameController {
             if (trade instanceof LongTrade) {
                 player.removeFromPortfolio(trade.getCoin(), trade.getQuantity());
             } else if (trade instanceof ShortTrade) {
-                // Return collateral for short positions
+
                 player.updateBalance(trade.getCoin().getPrice() * trade.getQuantity() * 0.5);
             }
             */
