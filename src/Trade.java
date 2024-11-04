@@ -1,4 +1,5 @@
 package src;
+
 public abstract class Trade {
     protected double quantity;
     protected Coin coin;
@@ -30,4 +31,3 @@ public abstract class Trade {
         return leverage;
     }
 }
-
