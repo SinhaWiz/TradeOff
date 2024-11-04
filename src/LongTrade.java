@@ -3,11 +3,15 @@ package src;
 public class LongTrade extends Trade{
     private double entryPrice;
     private Player player;
+    private Leverage leverage;
+    private double borrowedAmount
 
-    public LongTrade(Coin coin,double quantity)
+    public LongTrade(Coin coin,double quantity,Leverage leverage, Player player )
     {
         super(coin,quantity);
         this.entryPrice = coin.getPrice();
+        this.player = player;
+        this.leverage = leverage;
     }
     @Override
     public void executeTrade() {
@@ -24,7 +28,7 @@ public class LongTrade extends Trade{
             {
                 System.out.println("Insufficient balance");
             }
-            
+
         }
         else
         {
