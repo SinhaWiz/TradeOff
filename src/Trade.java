@@ -1,34 +1,33 @@
 package src;
 
-import java.time.LocalDateTime;
-
 public abstract class Trade {
     protected double quantity;
     protected Coin coin;
-    protected LocalDateTime tradeTime;
-    protected boolean isOpen;
+    protected double entryPrice;
+    protected int leverage;
 
-    public Trade(Coin coin, double quantity) {
+    public Trade(Coin coin, double quantity, double entryPrice, int leverage) {
         this.coin = coin;
         this.quantity = quantity;
-        this.tradeTime = LocalDateTime.now();
-        this.isOpen = true;
+        this.entryPrice = entryPrice;
+        this.leverage = leverage;
     }
-
-    public abstract void executeTrade();
 
     public abstract double calcGainLoss();
 
-    public abstract void closeTrade();
-
-    public boolean isOpen() {
-        return isOpen;
+    public Coin getCoin() {
+        return coin;
     }
 
-    public LocalDateTime getTradeTime() {
-        return tradeTime;
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public double getEntryPrice() {
+        return entryPrice;
+    }
+
+    public int getLeverage() {
+        return leverage;
     }
 }
-
-
-
