@@ -1,62 +1,12 @@
 package src;
 
-public class LongTrade extends Trade{
-    private double entryPrice;
-    private Player player;
-    private Leverage leverage;
-    private double borrowedAmount
-
-    public LongTrade(Coin coin,double quantity,Leverage leverage, Player player )
-    {
-        super(coin,quantity);
-        this.entryPrice = coin.getPrice();
-        this.player = player;
-        this.leverage = leverage;
-    }
-    @Override
-    public void executeTrade() {
-        if(isOpen())
-        {
-            double  totalCost=quantity*entryPrice;
-            if(player.getBalance()>=totalCost)
-            {
-                player.updateBalance(-totalCost);
-                player.addToPortfolio(coin,quantity);
-                System.out.println("LongTrade is open: "+"Executing longTrade for "+ quantity +" of" + coin.getName()+"at "+ entryPrice);
-            }
-            else
-            {
-                System.out.println("Insufficient balance");
-            }
-
-        }
-        else
-        {
-            System.out.println("The trade os not currently open");
-        }
-
+public class LongTrade extends Trade {
+    public LongTrade(Coin coin, double quantity, double entryPrice, int leverage) {
+        super(coin, quantity, entryPrice, leverage);
     }
 
     @Override
-    public double calcGainLoss()
-    {
-        double currentPrice = coin.getPrice();
-        return  (currentPrice - entryPrice)*quantity;
-    }
-
-    @Override
-    public void closeTrade() {
-        if(isOpen())
-        {
-            isOpen = false;
-            System.out.println("Closing LongTrade for "+quantity+" of "+coin.getName());
-            System.out.println("Total gain/loss: "+ calcGainLoss());
-            player.updateBalance(calcGainLoss());
-        }
-        else
-        {
-            System.out.println("The trade is already closed");
-        }
-
+    public double calcGainLoss() {
+        return quantity * (coin.getPrice() - entryPrice) * leverage;
     }
 }

@@ -1,23 +1,24 @@
 package src;
+
 public class Coin {
-    private double price;
     private String name;
-
-    public Coin(String name, double price) {
+    private String ticker;
+    private double price;
+    public Coin(String name, String ticker, double initialPrice) {
         this.name = name;
-        this.price = price;
+        this.ticker = ticker;
+        this.price = initialPrice;
     }
-
-
     public double getPrice() {
         return price;
     }
-
+    public void updatePrice(double newPrice) {
+        this.price = newPrice;
+    }
     public String getName() {
         return name;
     }
-
-    public void setPrice(double price) {
-        this.price = price;
+    public String getTicker() {
+        return ticker;
     }
 }
