@@ -33,7 +33,6 @@ public class GameController {
         displayWelcomeMessage();
         while (turnsRemaining > 0) {
             System.out.println("\nTurns remaining: " + turnsRemaining);
-            tableGenerator.displayTable(market.getCoins());
             displayMenu();
             boolean turnUsed = handleAction();
             if(turnUsed) {
@@ -58,7 +57,7 @@ public class GameController {
     private void displayMenu() {
         System.out.println("\n=== MENU ===");
         System.out.println("1. View Market");
-        System.out.println("2. View Portfolio");
+        System.out.println("2. View Positions");
         System.out.println("3. Open Long Position");
         System.out.println("4. Open Short Position");
         System.out.println("5. Close Position");
@@ -75,7 +74,7 @@ public class GameController {
                 tableGenerator.displayTable(market.getCoins());
                 return false;
             case 2:
-                displayPortfolio();
+                displayPositions();
                 return false;
             case 3:
                 return openLongPosition();
@@ -88,7 +87,7 @@ public class GameController {
                 skipTurn();
                 return true;
             default:
-                System.out.println("Invalid choice!Please try again.");
+                System.out.println("Invalid choice! Please try again.");
                 return false;
         }
     }
@@ -96,11 +95,11 @@ public class GameController {
     private void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
-            System.out.println("No positions to close!");
+            System.out.println("No positions open.");
             return;
         }
 
-        System.out.println("\nCurrent Positions:");
+        System.out.println("\n=== Current Positions ===");
         for (int i = 0; i < currentPositions.size(); i++) {
             Trade trade = currentPositions.get(i);
             if (trade instanceof LongTrade) {
@@ -282,15 +281,17 @@ public class GameController {
         for (int i = 0; i < currentPositions.size(); i++) {
             Trade trade = currentPositions.get(i);
             if (trade instanceof LongTrade) {
-                System.out.printf("%d. Long Position: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                System.out.printf("%d. %dX Long: %.4f %s at $%.2f (P/L: $%.2f)\n",
                         i + 1,
+                        trade.getLeverage(),
                         trade.getQuantity(),
                         trade.getCoin().getTicker(),
                         trade.getEntryPrice(),
                         trade.calcGainLoss());
             } else if (trade instanceof ShortTrade) {
-                System.out.printf("%d. Short Position: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                System.out.printf("%d. %dX Short: %.4f %s at $%.2f (P/L: $%.2f)\n",
                         i + 1,
+                        trade.getLeverage(),
                         trade.getQuantity(),
                         trade.getCoin().getTicker(),
                         trade.getEntryPrice(),
