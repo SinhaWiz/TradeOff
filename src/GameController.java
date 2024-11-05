@@ -336,7 +336,7 @@ public class GameController {
                 player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
                 positionsIterator.remove();
                 // positions.closePosition(positions.getPositions().indexOf(trade));
-            } else if (trade instanceof LongTrade && gainLoss < (player.getBalance()/2)) {
+            } else if (trade instanceof LongTrade && gainLoss < -(player.getBalance()/2)) {
                 System.out.println("WARNING: Long position liquidated due to insufficient funds!");
                 // positions.closePosition(positions.getPositions().indexOf(trade));
                 player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
