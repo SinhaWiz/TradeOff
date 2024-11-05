@@ -1,0 +1,5 @@
+Bitcoin,BTC,50000
+Ethereum,ETH,3000
+Binance Coin,BNB,400
+Cardano,ADA,1.5
+Solana,SOL,100
