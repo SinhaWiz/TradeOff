@@ -186,10 +186,9 @@ public class GameController {
             }
 
             Coin coin = selectedCoin.get();
-            double totalCost = coin.getPrice() * quantity * leverage;
             double tradingAmount = coin.getPrice() * quantity;
 
-            if (totalCost <= player.getBalance()) {
+            if (tradingAmount <= player.getBalance()) {
                 positions.openLongPosition(coin, quantity, coin.getPrice(), leverage);
                 player.updateBalance(-tradingAmount);
                 player.addToPortfolio(coin, quantity);
