@@ -4,10 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class GameController {
     private Player player;
@@ -327,14 +324,23 @@ public class GameController {
     }
 
     private void updatePositions() {
-        for (Trade trade : positions.getPositions()) {
+        List<Trade> listOfPositions = positions.getPositions();
+        Iterator<Trade> positionsIterator = listOfPositions.iterator();
+        while (positionsIterator.hasNext()) {
+            Trade trade = positionsIterator.next();
             // Update unrealized P/L
             double gainLoss = trade.calcGainLoss();
             // Check for liquidation in short positions
-            if (trade instanceof ShortTrade && gainLoss < -player.getBalance()) {
+            if (trade instanceof ShortTrade && gainLoss < -(player.getBalance()/2)) {
                 System.out.println("WARNING: Short position liquidated due to insufficient funds!");
-                positions.closePosition(positions.getPositions().indexOf(trade));
                 player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
+                positionsIterator.remove();
+                // positions.closePosition(positions.getPositions().indexOf(trade));
+            } else if (trade instanceof LongTrade && gainLoss < -(player.getBalance()/2)) {
+                System.out.println("WARNING: Long position liquidated due to insufficient funds!");
+                // positions.closePosition(positions.getPositions().indexOf(trade));
+                player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
+                positionsIterator.remove();
             }
         }
     }
