@@ -1,11 +1,9 @@
 package src;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
 public class GameController {
     private Player player;
     private Market market;
@@ -52,13 +50,9 @@ public class GameController {
     }
 
     private void displayMenu() {
-        System.out.println("\n=== MENU ===");
-        System.out.println("1. View Market");
-        System.out.println("2. View Positions");
-        System.out.println("3. Open Long Position");
-        System.out.println("4. Open Short Position");
-        System.out.println("5. Close Position");
-        System.out.println("6. Skip Turn");
+        System.out.println("\n                      =+=+=+=+=+= MENU =+=+=+=+=+= ");
+        System.out.println("|| 1.View Market || 2.View Positions || 3.Open Long Position ||");
+        System.out.println("|| 4.Open Short Position || 5.Close Position ||  6.Skip Turn ||");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -116,23 +110,6 @@ public class GameController {
                         trade.getEntryPrice(),
                         trade.calcGainLoss());
             }
-        }
-    }
-
-    private void displayPortfolio() {
-        System.out.println("\n=== Current Portfolio ===");
-        Map<Coin, Double> portfolio = player.getPortfolio();
-        if (portfolio.isEmpty()) {
-            System.out.println("No positions open.");
-            return;
-        }
-
-        for (Map.Entry<Coin, Double> entry : portfolio.entrySet()) {
-            Coin coin = entry.getKey();
-            double quantity = entry.getValue();
-            double currentValue = quantity * coin.getPrice();
-            System.out.printf("%s: %.4f coins (Current Value: $%.2f)\n",
-                    coin.getTicker(), quantity, currentValue);
         }
     }
 
@@ -272,7 +249,6 @@ public class GameController {
             System.out.println("No positions to close!");
             return;
         }
-
         System.out.println("\nCurrent Positions:");
         for (int i = 0; i < currentPositions.size(); i++) {
             Trade trade = currentPositions.get(i);
@@ -297,21 +273,10 @@ public class GameController {
 
         System.out.print("Enter position number to close (1-" + currentPositions.size() + "): ");
         int choice = scanner.nextInt() - 1;
-
         if (choice >= 0 && choice < currentPositions.size()) {
             Trade trade = currentPositions.get(choice);
             double closingAmount = trade.calcGainLoss() + (trade.getEntryPrice() * trade.getQuantity());
             player.updateBalance(closingAmount);
-
-            /*
-            if (trade instanceof LongTrade) {
-                player.removeFromPortfolio(trade.getCoin(), trade.getQuantity());
-            } else if (trade instanceof ShortTrade) {
-
-                player.updateBalance(trade.getCoin().getPrice() * trade.getQuantity() * 0.5);
-            }
-            */
-
             positions.closePosition(choice);
             System.out.printf("Position closed. Profit/Loss: $%.2f\n", trade.calcGainLoss());
         } else {
@@ -322,7 +287,6 @@ public class GameController {
     private void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
     }
-
     private void updatePositions() {
         List<Trade> listOfPositions = positions.getPositions();
         Iterator<Trade> positionsIterator = listOfPositions.iterator();
@@ -387,10 +351,7 @@ public class GameController {
         } else {
             System.out.println("\nGame Over! The loan sharks are coming for you...");
         }
-
         System.out.println("\nFinal Portfolio:");
-        displayPortfolio();
-
         try (FileWriter writer = new FileWriter("final_results.txt")) {
             writer.write("=== Final Game Results ===\n");
             writer.write("Final Balance: $" + String.format("%.2f", finalBalance) + "\n");
