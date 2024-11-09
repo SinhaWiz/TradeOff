@@ -17,7 +17,7 @@ public class GameController {
     private MarketTableGenerator tableGenerator;
     private Scanner scanner;
     private int turnsRemaining;
-    private static final int MAX_TURNS = 10;
+    private static final int MAX_TURNS = 160;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -63,6 +63,8 @@ public class GameController {
         System.out.println("4. Open Short Position");
         System.out.println("5. Close Position");
         System.out.println("6. Skip Turn");
+        System.out.println("7. Skip a day");
+        System.out.println("8. Exit");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -87,6 +89,9 @@ public class GameController {
             case 6:
                 skipTurn();
                 return true;
+            case 7:
+                skipDay();
+                return false;
             default:
                 System.out.println("Invalid choice!Please try again.");
                 return false;
@@ -225,11 +230,21 @@ public class GameController {
             System.out.println("Invalid position number!");
         }
     }
+    private void exitGame(){
 
+    }
     private void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
     }
-
+    private void skipDay() {
+        if(turnsRemaining%16 == 0  ){
+            turnsRemaining-=16;
+        }
+        else {
+            turnsRemaining -= turnsRemaining % 16;
+        }
+        System.out.println("Day skipped. Market will update and affect your current positions.");
+    }
     private void updatePositions() {
         for (Trade trade : positions.viewCurrentPositions()) {
             // Update unrealized P/L

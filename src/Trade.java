@@ -1,3 +1,7 @@
+package src;
+
+import src.Coin;
+
 public abstract class Trade {
     protected double quantity;
     protected Coin coin;
