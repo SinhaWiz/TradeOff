@@ -92,6 +92,9 @@ public class GameController {
             case 7:
                 skipDay();
                 return false;
+            case 8:
+                exitGame();
+                return false;
             default:
                 System.out.println("Invalid choice!Please try again.");
                 return false;
@@ -231,7 +234,8 @@ public class GameController {
         }
     }
     private void exitGame(){
-
+        System.out.println("\nExiting game...................................");
+        System.exit(0);
     }
     private void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
