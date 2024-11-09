@@ -10,12 +10,12 @@ public class PositionManager {
         this.positions = new ArrayList<>();
     }
 
-    public void openLongPosition(Coin coin, double quantity, double price) {
-        positions.add(new LongTrade(coin, quantity, price));
+    public void openLongPosition(Coin coin, double quantity, double price, int leverage) {
+        positions.add(new LongTrade(coin, quantity, price, leverage));
     }
 
-    public void openShortPosition(Coin coin, double quantity, double price) {
-        positions.add(new ShortTrade(coin, quantity, price));
+    public void openShortPosition(Coin coin, double quantity, double price, int leverage) {
+        positions.add(new ShortTrade(coin, quantity, price, leverage));
     }
 
     public void closePosition(int index) {
@@ -23,8 +23,8 @@ public class PositionManager {
             positions.remove(index);
         }
     }
-
-    public List<Trade> viewCurrentPositions() {
-        return new ArrayList<>(positions);
+    
+    public List<Trade> getPositions() {
+        return positions;
     }
 }
