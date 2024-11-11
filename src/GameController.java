@@ -51,15 +51,15 @@ public class GameController {
 
     private void displayMenu() {
 
-        System.out.println("\n=== MENU ===");
-        System.out.println("1. View Market");
-        System.out.println("2. View Portfolio");
-        System.out.println("3. Open Long Position");
-        System.out.println("4. Open Short Position");
-        System.out.println("5. Close Position");
-        System.out.println("6. Skip Turn");
-        System.out.println("7. Skip a day");
-        System.out.println("8. Exit");
+        System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
+        //System.out.println();
+      //  System.out.println("");
+        System.out.println("|+|+|+| 4.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
+        //System.out.println("");
+        //System.out.println("");
+        //System.out.println("");
+       // System.out.println("");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -75,12 +75,12 @@ public class GameController {
                 displayPositions();
                 return false;
             case 3:
-                return openLongPosition();
-            case 4:
-                return openShortPosition();
-            case 5:
                 closePosition();
                 return false;
+            case 4:
+                return openLongPosition() ;
+            case 5:
+                return openShortPosition();
             case 6:
                 skipTurn();
                 return true;
@@ -255,7 +255,6 @@ public class GameController {
             return false;
         }
     }
-
     private void closePosition() {
         List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
