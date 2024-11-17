@@ -1,0 +1,55 @@
+
+=== Game State at 2024-11-06 13:16:02 ===
+Turns Remaining: 160
+Player Balance: $950000.00
+Current Positions:
+ShortTrade position: 1.0000 BTC at $50000.00 (P/L: $-6635.58)
+Current Market Prices:
+Bitcoin (BTC): $50663.56
+Ethereum (ETH): $3142.49
+Binance Coin (BNB): $376.21
+Cardano (ADA): $1.56
+Solana (SOL): $97.32
+------------------------
+
+=== Game State at 2024-11-17 08:11:12 ===
+Turns Remaining: 160
+Player Balance: $980000.00
+Current Positions:
+LongTrade position: 50.0000 BNB at $400.00 (P/L: $15573.83)
+Current Market Prices:
+Bitcoin (BTC): $49120.76
+Ethereum (ETH): $2882.26
+Binance Coin (BNB): $431.15
+Solana (SOL): $116.05
+Ripple (XRP): $0.65
+Cardano (ADA): $1.65
+------------------------
+
+=== Game State at 2024-11-17 08:12:38 ===
+Turns Remaining: 159
+Player Balance: $994016.45
+Current Positions:
+LongTrade position: 50.0000 BNB at $431.15 (P/L: $-125225.59)
+Current Market Prices:
+Bitcoin (BTC): $55248.74
+Ethereum (ETH): $2634.68
+Binance Coin (BNB): $330.97
+Solana (SOL): $123.39
+Ripple (XRP): $0.60
+Cardano (ADA): $1.54
+------------------------
+
+=== Game State at 2024-11-17 08:13:28 ===
+Turns Remaining: 158
+Player Balance: $337860.84
+Current Positions:
+LongTrade position: 10.0000 BTC at $55248.74 (P/L: $-49534.93)
+Current Market Prices:
+Bitcoin (BTC): $52771.99
+Ethereum (ETH): $2412.73
+Binance Coin (BNB): $303.55
+Solana (SOL): $129.30
+Ripple (XRP): $0.59
+Cardano (ADA): $1.65
+------------------------
