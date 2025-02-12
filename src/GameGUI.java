@@ -149,6 +149,38 @@ public class GameGUI extends JFrame {
         skipTurnBtn.addActionListener(e -> skipTurn());
         skipDayBtn.addActionListener(e -> skipDay());
     }
+    private void updateDisplay() {
+        updateMarketDisplay();
+        updatePositionsDisplay();
+        balanceLabel.setText(String.format("Balance: $%.2f", player.getBalance()));
+        turnsLabel.setText("Turns Remaining: " + turnsRemaining);
+    }
+
+    private void updateMarketDisplay() {
+        marketTableModel.setRowCount(0);
+        for (Coin coin : market.getCoins()) {
+            marketTableModel.addRow(new Object[]{
+                    coin.getName(),
+                    coin.getTicker(),
+                    String.format("$%.2f", coin.getPrice())
+            });
+        }
+    }
+
+    private void updatePositionsDisplay() {
+        positionsTableModel.setRowCount(0);
+        for (Trade trade : positions.getPositions()) {
+            positionsTableModel.addRow(new Object[]{
+                    trade instanceof LongTrade ? "Long" : "Short",
+                    trade.getCoin().getTicker(),
+                    String.format("%.4f", trade.getQuantity()),
+                    String.format("$%.2f", trade.getEntryPrice()),
+                    String.format("$%.2f", trade.calcGainLoss()),
+                    trade.getLeverage() + "x"
+            });
+        }
+    }
+
 
 
 }
