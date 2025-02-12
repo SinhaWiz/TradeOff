@@ -1,0 +1,136 @@
+2025-02-12 19:32:36
+Bitcoin,BTC,51493.11
+Ethereum,ETH,3133.87
+Binance Coin,BNB,364.85
+Solana,SOL,89.46
+Ripple,XRP,0.66
+Cardano,ADA,1.81
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,55976.30
+Ethereum,ETH,3045.03
+Binance Coin,BNB,364.58
+Solana,SOL,114.36
+Ripple,XRP,0.74
+Cardano,ADA,1.71
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,56562.82
+Ethereum,ETH,3111.00
+Binance Coin,BNB,352.38
+Solana,SOL,107.74
+Ripple,XRP,0.79
+Cardano,ADA,1.75
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,55347.36
+Ethereum,ETH,3160.20
+Binance Coin,BNB,328.56
+Solana,SOL,105.65
+Ripple,XRP,0.81
+Cardano,ADA,1.67
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,52650.57
+Ethereum,ETH,3162.81
+Binance Coin,BNB,306.74
+Solana,SOL,94.66
+Ripple,XRP,0.84
+Cardano,ADA,1.53
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,52211.04
+Ethereum,ETH,3154.72
+Binance Coin,BNB,331.62
+Solana,SOL,99.17
+Ripple,XRP,0.85
+Cardano,ADA,1.18
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,53361.85
+Ethereum,ETH,3303.09
+Binance Coin,BNB,362.45
+Solana,SOL,97.95
+Ripple,XRP,0.93
+Cardano,ADA,0.98
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,54425.63
+Ethereum,ETH,3241.78
+Binance Coin,BNB,352.97
+Solana,SOL,90.49
+Ripple,XRP,0.93
+Cardano,ADA,1.11
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,55314.70
+Ethereum,ETH,2827.65
+Binance Coin,BNB,367.85
+Solana,SOL,84.08
+Ripple,XRP,0.94
+Cardano,ADA,1.02
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,56152.21
+Ethereum,ETH,2814.89
+Binance Coin,BNB,385.15
+Solana,SOL,70.03
+Ripple,XRP,0.84
+Cardano,ADA,1.16
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,56006.86
+Ethereum,ETH,2878.30
+Binance Coin,BNB,384.13
+Solana,SOL,70.81
+Ripple,XRP,0.79
+Cardano,ADA,1.28
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,53813.36
+Ethereum,ETH,3029.73
+Binance Coin,BNB,408.30
+Solana,SOL,62.79
+Ripple,XRP,0.66
+Cardano,ADA,1.49
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,53126.30
+Ethereum,ETH,2735.03
+Binance Coin,BNB,415.93
+Solana,SOL,46.07
+Ripple,XRP,0.57
+Cardano,ADA,1.47
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,55630.91
+Ethereum,ETH,2720.17
+Binance Coin,BNB,401.58
+Solana,SOL,39.38
+Ripple,XRP,0.60
+Cardano,ADA,1.62
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,55848.63
+Ethereum,ETH,2511.41
+Binance Coin,BNB,382.05
+Solana,SOL,45.94
+Ripple,XRP,0.64
+Cardano,ADA,1.62
+------------------------
+2025-02-12 19:32:36
+Bitcoin,BTC,54466.38
+Ethereum,ETH,2481.98
+Binance Coin,BNB,401.14
+Solana,SOL,44.79
+Ripple,XRP,0.58
+Cardano,ADA,1.78
+------------------------
+2025-02-12 19:38:58
+Bitcoin,BTC,52297.97
+Ethereum,ETH,3247.78
+Binance Coin,BNB,449.32
+Solana,SOL,110.65
+Ripple,XRP,0.68
+Cardano,ADA,1.63
+------------------------
