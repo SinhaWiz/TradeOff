@@ -273,6 +273,98 @@ public class GameGUI extends JFrame {
         showMessage(String.format("Position closed. Profit/Loss: $%.2f", trade.calcGainLoss()));
         updateDisplay();
     }
+    private void skipTurn() {
+        market.simulateMarketMovement();
+        updatePositions();
+        turnsRemaining--;
+        updateDisplay();
+        checkGameOver();
+    }
 
+    private void skipDay() {
+        int turnsToSkip = turnsRemaining % 16 == 0 ? 16 : turnsRemaining % 16;
+        for (int i = 0; i < turnsToSkip; i++) {
+            market.simulateMarketMovement();
+            updatePositions();
+            turnsRemaining--;
+        }
+        updateDisplay();
+        checkGameOver();
+    }
+    private void updatePositions() {
+        List<Trade> listOfPositions = positions.getPositions();
+        for (int i = listOfPositions.size() - 1; i >= 0; i--) {
+            Trade trade = listOfPositions.get(i);
+            double gainLoss = trade.calcGainLoss();
+            if ((trade instanceof ShortTrade || trade instanceof LongTrade)
+                    && gainLoss < -(player.getBalance()/2)) {
+                showError("Position liquidated due to insufficient funds!");
+                player.updateBalance(gainLoss + (trade.getQuantity() * trade.getEntryPrice()));
+                positions.closePosition(i);
+            }
+        }
+    }
+    private void checkGameOver() {
+        if (turnsRemaining <= 0) {
+            double finalBalance = player.getBalance();
+            String message = "Game Over!\n\n" +
+                    String.format("Final Balance: $%.2f\n", finalBalance) +
+                    String.format("Profit/Loss: $%.2f\n\n", finalBalance - 1000000);
+
+            if (finalBalance >= 5000000) {
+                message += "Congratulations! You've paid off the loan sharks and made a profit!";
+            } else {
+                message += "Game Over! The loan sharks are coming for you...";
+            }
+
+            showMessage(message);
+            System.exit(0);
+        }
+    }
+
+    private void showWelcomeMessage() {
+        String message = "Welcome to TradeOff!\n\n" +
+                "You are broke. Now you have taken $1 million from Loan Sharks.\n" +
+                "You have to pay them $5 million dollars within 10 days.\n" +
+                "If you don't, the consequences will be beyond your imagination.\n" +
+                "Because of this short deadline, you have chosen using cryptocurrency to earn these money ASAP.\n\n" +
+                "You have " + MAX_TURNS + " turns to make your fortune.";
+        showMessage(message);
+    }
+    private int showLeverageDialog() {
+        String[] options = {"2x", "5x", "10x", "25x", "100x", "No Leverage"};
+        int choice = JOptionPane.showOptionDialog(this,
+                "Select leverage:",
+                "Leverage Selection",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+
+        if (choice == -1) return -1;
+
+        switch (choice) {
+            case 0: return 2;
+            case 1: return 5;
+            case 2: return 10;
+            case 3: return 25;
+            case 4: return 100;
+            case 5: return 1;
+            default: return -1;
+        }
+    }
+
+    private String showInputDialog(String message) {
+        return JOptionPane.showInputDialog(this, message);
+    }
+
+    private void showMessage(String message) {
+        JOptionPane.showMessageDialog(this, message);
+    }
+
+    private void showError(String message) {
+        JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
+    }
 
 }
