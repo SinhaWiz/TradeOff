@@ -51,11 +51,11 @@ public class GameController {
 
     private void displayMenu() {
 
-        System.out.println("\n|$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| \n");
-        System.out.println("[+][+]   1.View Market        [+]  5.Open Short Position [+][+]");
-        System.out.println("[+][+]   2.View Portfolio     [+]  6. Skip Turn          [+][+]");
-        System.out.println("[+][+]   3.Close Position     [+]  7.Skip a day          [+][+]");
-        System.out.println("[+][+]   4.Open Long Position [+]  8.  Exit              [+][+]");
+        System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
+        //System.out.println();
+      //  System.out.println("");
+        System.out.println("|+|+|+| 4.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
         //System.out.println("");
         //System.out.println("");
         //System.out.println("");
