@@ -366,5 +366,16 @@ public class GameGUI extends JFrame {
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Error", JOptionPane.ERROR_MESSAGE);
     }
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        SwingUtilities.invokeLater(() -> {
+            GameGUI game = new GameGUI();
+            game.setVisible(true);
+        });
+    }
 }
