@@ -57,7 +57,7 @@ public class GameController {
         //System.out.println();
       //  System.out.println("");
 
-        System.out.println("|+|+|+| 4.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
 
         //System.out.println("");
         //System.out.println("");
