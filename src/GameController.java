@@ -35,6 +35,7 @@ public class GameController {
                 updatePositions();
                 saveGameState();
                 turnsRemaining--;
+                clearConsole();
             }
         }
         displayFinalResults();
@@ -55,7 +56,7 @@ public class GameController {
         System.out.println("[+][+][+] 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position[+][+][+]");
         //System.out.println();
       //  System.out.println("");
-        System.out.println("[+][+][+] 4.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             [+][+][+]");
+        System.out.println("[+][+][+] 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             [+][+][+]");
         //System.out.println("");
         //System.out.println("");
         //System.out.println("");
@@ -69,12 +70,15 @@ public class GameController {
 
         switch (choice) {
             case 1:
+                clearConsole();
                 tableGenerator.displayTable(market.getCoins());
                 return false;
             case 2:
+                clearConsole();
                 displayPositions();
                 return false;
             case 3:
+                clearConsole();
                 closePosition();
                 return false;
             case 4:
@@ -86,6 +90,7 @@ public class GameController {
                 return true;
             case 7:
                 skipDay();
+                clearConsole();
                 return false;
             case 8:
                 exitGame();
@@ -393,6 +398,19 @@ public class GameController {
             }
         } catch (IOException e) {
             System.out.println("Error saving final results.");
+        }
+    }
+
+    private void clearConsole(){
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
