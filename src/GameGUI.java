@@ -181,6 +181,98 @@ public class GameGUI extends JFrame {
         }
     }
 
+    private void openLongPosition() {
+        String ticker = showInputDialog("Enter coin ticker:");
+        if (ticker == null) return;
+
+        Optional<Coin> selectedCoin = market.getCoins().stream()
+                .filter(c -> c.getTicker().equalsIgnoreCase(ticker))
+                .findFirst();
+
+        if (selectedCoin.isPresent()) {
+            int leverage = showLeverageDialog();
+            if (leverage == -1) return;
+
+            String quantityStr = showInputDialog("Enter quantity:");
+            if (quantityStr == null) return;
+
+            try {
+                double quantity = Double.parseDouble(quantityStr);
+                Coin coin = selectedCoin.get();
+                double tradingAmount = coin.getPrice() * quantity;
+
+                if (tradingAmount <= player.getBalance()) {
+                    positions.openLongPosition(coin, quantity, coin.getPrice(), leverage);
+                    player.updateBalance(-tradingAmount);
+                    player.addToPortfolio(coin, quantity);
+                    showMessage("Long position opened successfully!");
+                    updateDisplay();
+                } else {
+                    showError("Insufficient funds!");
+                }
+            } catch (NumberFormatException e) {
+                showError("Invalid quantity!");
+            }
+        } else {
+            showError("Invalid coin ticker!");
+        }
+    }
+
+    private void openShortPosition() {
+        String ticker = showInputDialog("Enter coin ticker:");
+        if (ticker == null) return;
+
+        Optional<Coin> selectedCoin = market.getCoins().stream()
+                .filter(c -> c.getTicker().equalsIgnoreCase(ticker))
+                .findFirst();
+
+        if (selectedCoin.isPresent()) {
+            int leverage = showLeverageDialog();
+            if (leverage == -1) return;
+
+            String quantityStr = showInputDialog("Enter quantity:");
+            if (quantityStr == null) return;
+
+            try {
+                double quantity = Double.parseDouble(quantityStr);
+                Coin coin = selectedCoin.get();
+                double collateral = coin.getPrice() * quantity * 0.5 * leverage;
+
+                if (collateral <= player.getBalance()) {
+                    positions.openShortPosition(coin, quantity, coin.getPrice(), leverage);
+                    player.updateBalance(-collateral);
+                    showMessage("Short position opened successfully!");
+                    updateDisplay();
+                } else {
+                    showError("Insufficient collateral!");
+                }
+            } catch (NumberFormatException e) {
+                showError("Invalid quantity!");
+            }
+        } else {
+            showError("Invalid coin ticker!");
+        }
+    }
+
+    private void closePosition() {
+        if (positions.getPositions().isEmpty()) {
+            showError("No positions to close!");
+            return;
+        }
+
+        int selectedRow = positionsTable.getSelectedRow();
+        if (selectedRow == -1) {
+            showError("Please select a position to close!");
+            return;
+        }
+
+        Trade trade = positions.getPositions().get(selectedRow);
+        double closingAmount = trade.calcGainLoss() + (trade.getEntryPrice() * trade.getQuantity());
+        player.updateBalance(closingAmount);
+        positions.closePosition(selectedRow);
+        showMessage(String.format("Position closed. Profit/Loss: $%.2f", trade.calcGainLoss()));
+        updateDisplay();
+    }
 
 
 }
