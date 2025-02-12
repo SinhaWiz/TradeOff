@@ -54,4 +54,27 @@ public class GameGUI extends JFrame {
         showWelcomeMessage();
     }
 
+    private void initializeComponents() {
+        // Initialize labels
+        balanceLabel = new JLabel("Balance: $1,000,000.00");
+        balanceLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        turnsLabel = new JLabel("Turns Remaining: " + turnsRemaining);
+        turnsLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+        // Initialize tables
+        initializeMarketTable();
+        initializePositionsTable();
+
+        // Initialize buttons
+        viewMarketBtn = createStyledButton("View Market");
+        viewPortfolioBtn = createStyledButton("View Portfolio");
+        openLongBtn = createStyledButton("Open Long Position");
+        openShortBtn = createStyledButton("Open Short Position");
+        closePositionBtn = createStyledButton("Close Position");
+        skipTurnBtn = createStyledButton("Skip Turn");
+        skipDayBtn = createStyledButton("Skip Day");
+
+        // Add button listeners
+        addButtonListeners();
+    }
 }
