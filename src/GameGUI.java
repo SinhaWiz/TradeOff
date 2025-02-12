@@ -80,8 +80,8 @@ public class GameGUI extends JFrame {
     private JButton createStyledButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBackground(new Color(51, 153, 255));
-        button.setForeground(Color.WHITE);
+        button.setBackground(new Color(7, 107, 203));
+        button.setForeground(Color.black);
         button.setFocusPainted(false);
         button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         return button;
