@@ -35,6 +35,7 @@ public class GameController {
                 updatePositions();
                 saveGameState();
                 turnsRemaining--;
+                clearConsole();
             }
         }
         displayFinalResults();
@@ -51,15 +52,17 @@ public class GameController {
 
     private void displayMenu() {
 
-        System.out.println("\n=== MENU ===");
-        System.out.println("1. View Market");
-        System.out.println("2. View Portfolio");
-        System.out.println("3. Open Long Position");
-        System.out.println("4. Open Short Position");
-        System.out.println("5. Close Position");
-        System.out.println("6. Skip Turn");
-        System.out.println("7. Skip a day");
-        System.out.println("8. Exit");
+        System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
+        //System.out.println();
+      //  System.out.println("");
+
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
+
+        //System.out.println("");
+        //System.out.println("");
+        //System.out.println("");
+       // System.out.println("");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -69,32 +72,61 @@ public class GameController {
 
         switch (choice) {
             case 1:
+                clearConsole();
                 tableGenerator.displayTable(market.getCoins());
                 return false;
             case 2:
+                clearConsole();
                 displayPositions();
                 return false;
             case 3:
-                return openLongPosition();
-            case 4:
-                return openShortPosition();
-            case 5:
+                clearConsole();
                 closePosition();
                 return false;
+            case 4:
+                return openLongPosition() ;
+            case 5:
+                return openShortPosition();
             case 6:
                 skipTurn();
                 return true;
             case 7:
                 skipDay();
+                clearConsole();
                 return false;
             case 8:
                 exitGame();
+                return false;
+            case 9:
+                predictNextMovement();
                 return false;
             default:
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
     }
+    private void predictNextMovement() {
+        if (player.getBalance() >= 5000) {
+            player.deductBalance(5000);
+            Map<Coin, Double> predictions = market.predictNextMovements();
+
+            System.out.println("Private Investigator Report:");
+            for (Map.Entry<Coin, Double> entry : predictions.entrySet()) {
+                Coin coin = entry.getKey();
+                double change = entry.getValue();
+
+                if (change > 0) {
+                    System.out.println(coin.getTicker() + " is expected to rise");
+                } else {
+                    System.out.println(coin.getTicker() + " may go down.");
+                }
+            }
+        } else {
+            System.out.println("Not enough balance ($5000 required) to hire the investigator.");
+        }
+    }
+
+
 
     private void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();
@@ -255,7 +287,6 @@ public class GameController {
             return false;
         }
     }
-
     private void closePosition() {
         List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
@@ -394,6 +425,19 @@ public class GameController {
             }
         } catch (IOException e) {
             System.out.println("Error saving final results.");
+        }
+    }
+
+    private void clearConsole(){
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
