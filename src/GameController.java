@@ -337,10 +337,22 @@ public class GameController {
 
     private void skipDay() {
         if(turnsRemaining%16 == 0  ){
-            turnsRemaining-=16;
+
+            for (int  i = 0 ; i<16 ; i++) {
+                turnsRemaining--;
+                market.simulateMarketMovement();
+                updatePositions();
+                saveGameState();
+            }
         }
         else {
-            turnsRemaining -= turnsRemaining % 16;
+          int  turns_to_skip = turnsRemaining%16;
+            for (int  i = 0 ; i< turns_to_skip; i++) {
+                turnsRemaining--;
+                market.simulateMarketMovement();
+                updatePositions();
+                saveGameState();
+            }
         }
         System.out.println("Day skipped. Market will update and affect your current positions.");
     }
