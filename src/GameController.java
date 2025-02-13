@@ -97,11 +97,36 @@ public class GameController {
             case 8:
                 exitGame();
                 return false;
+            case 9:
+                predictNextMovement();
+                return false;
             default:
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
     }
+    private void predictNextMovement() {
+        if (player.getBalance() >= 5000) {
+            player.deductBalance(5000);
+            Map<Coin, Double> predictions = market.predictNextMovements();
+
+            System.out.println("Private Investigator Report:");
+            for (Map.Entry<Coin, Double> entry : predictions.entrySet()) {
+                Coin coin = entry.getKey();
+                double change = entry.getValue();
+
+                if (change > 0) {
+                    System.out.println(coin.getTicker() + " is expected to rise");
+                } else {
+                    System.out.println(coin.getTicker() + " may go down.");
+                }
+            }
+        } else {
+            System.out.println("Not enough balance ($5000 required) to hire the investigator.");
+        }
+    }
+
+
 
     private void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();

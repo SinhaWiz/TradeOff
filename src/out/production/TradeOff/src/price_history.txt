@@ -1,0 +1,160 @@
+2025-02-12 09:58:31
+Bitcoin,BTC,47675.53
+Ethereum,ETH,2859.16
+Binance Coin,BNB,420.57
+Cardano,ADA,1.32
+Solana,SOL,107.83
+Dogecoin,DOGE,0.12
+------------------------
+2025-02-12 09:58:31
+Bitcoin,BTC,46360.67
+Ethereum,ETH,2655.21
+Binance Coin,BNB,382.31
+Cardano,ADA,1.15
+Solana,SOL,125.31
+Dogecoin,DOGE,0.16
+------------------------
+2025-02-12 09:58:31
+Bitcoin,BTC,43825.92
+Ethereum,ETH,2774.76
+Binance Coin,BNB,350.58
+Cardano,ADA,0.89
+Solana,SOL,129.47
+Dogecoin,DOGE,0.18
+------------------------
+2025-02-12 09:58:31
+Bitcoin,BTC,42359.70
+Ethereum,ETH,3082.60
+Binance Coin,BNB,345.58
+Cardano,ADA,0.92
+Solana,SOL,110.18
+Dogecoin,DOGE,0.19
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,44095.03
+Ethereum,ETH,2913.31
+Binance Coin,BNB,361.68
+Cardano,ADA,0.95
+Solana,SOL,103.02
+Dogecoin,DOGE,0.19
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,45050.01
+Ethereum,ETH,2824.83
+Binance Coin,BNB,308.62
+Cardano,ADA,0.83
+Solana,SOL,76.49
+Dogecoin,DOGE,0.17
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,46380.26
+Ethereum,ETH,2861.19
+Binance Coin,BNB,312.27
+Cardano,ADA,0.82
+Solana,SOL,70.22
+Dogecoin,DOGE,0.18
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,41810.94
+Ethereum,ETH,3306.00
+Binance Coin,BNB,328.65
+Cardano,ADA,0.61
+Solana,SOL,65.89
+Dogecoin,DOGE,0.23
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,39637.62
+Ethereum,ETH,3547.72
+Binance Coin,BNB,311.32
+Cardano,ADA,0.63
+Solana,SOL,69.91
+Dogecoin,DOGE,0.21
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,38156.01
+Ethereum,ETH,3640.11
+Binance Coin,BNB,299.79
+Cardano,ADA,0.60
+Solana,SOL,78.25
+Dogecoin,DOGE,0.17
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,34105.46
+Ethereum,ETH,3492.98
+Binance Coin,BNB,290.89
+Cardano,ADA,0.50
+Solana,SOL,67.76
+Dogecoin,DOGE,0.18
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,32647.30
+Ethereum,ETH,3201.16
+Binance Coin,BNB,287.29
+Cardano,ADA,0.39
+Solana,SOL,65.92
+Dogecoin,DOGE,0.21
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,32557.39
+Ethereum,ETH,3400.61
+Binance Coin,BNB,305.32
+Cardano,ADA,0.39
+Solana,SOL,64.24
+Dogecoin,DOGE,0.25
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,32789.41
+Ethereum,ETH,3273.27
+Binance Coin,BNB,324.31
+Cardano,ADA,0.31
+Solana,SOL,62.85
+Dogecoin,DOGE,0.23
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,35047.93
+Ethereum,ETH,3213.02
+Binance Coin,BNB,340.67
+Cardano,ADA,0.33
+Solana,SOL,60.71
+Dogecoin,DOGE,0.21
+------------------------
+2025-02-12 09:58:35
+Bitcoin,BTC,34009.62
+Ethereum,ETH,3267.06
+Binance Coin,BNB,309.95
+Cardano,ADA,0.32
+Solana,SOL,45.73
+Dogecoin,DOGE,0.22
+------------------------
+2025-02-13 09:09:21
+Bitcoin,BTC,50976.47
+Ethereum,ETH,3387.83
+Binance Coin,BNB,416.85
+Cardano,ADA,1.67
+Solana,SOL,98.20
+Dogecoin,DOGE,0.12
+------------------------
+2025-02-13 09:09:26
+Bitcoin,BTC,50195.73
+Ethereum,ETH,3618.78
+Binance Coin,BNB,407.60
+Cardano,ADA,1.77
+Solana,SOL,96.38
+Dogecoin,DOGE,0.12
+------------------------
+2025-02-13 09:10:08
+Bitcoin,BTC,49236.39
+Ethereum,ETH,3972.34
+Binance Coin,BNB,417.34
+Cardano,ADA,1.91
+Solana,SOL,98.51
+Dogecoin,DOGE,0.11
+------------------------
+2025-02-13 09:10:52
+Bitcoin,BTC,46440.25
+Ethereum,ETH,3081.08
+Binance Coin,BNB,391.81
+Cardano,ADA,1.67
+Solana,SOL,99.95
+Dogecoin,DOGE,0.12
+------------------------
