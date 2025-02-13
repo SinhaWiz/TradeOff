@@ -346,8 +346,8 @@ public class GameController {
             }
         }
         else {
-
-            for (int  i = 0 ; i<turnsRemaining%16 ; i++) {
+          int  turns_to_skip = turnsRemaining%16;
+            for (int  i = 0 ; i< turns_to_skip; i++) {
                 turnsRemaining--;
                 market.simulateMarketMovement();
                 updatePositions();
