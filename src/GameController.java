@@ -92,6 +92,7 @@ public class GameController {
                 return false;
             case 9:
                 CryptoBarGraph.generateGraph("game_state.txt",5);
+                return false;
             case 10:
                 exitGame();
                 return false;
