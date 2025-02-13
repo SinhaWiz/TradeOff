@@ -53,16 +53,9 @@ public class GameController {
     private void displayMenu() {
 
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
-        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
-        //System.out.println();
-      //  System.out.println("");
-
-        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
-
-        //System.out.println("");
-        //System.out.println("");
-        //System.out.println("");
-       // System.out.println("");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position             |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Bribe Market Insiders ($5000)  |+|+|+|");
+        System.out.println("|+|+|+| 9.Exit Game          |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
