@@ -1,5 +1,4 @@
 package src;
-
 public class Coin {
     private String name;
     private String ticker;

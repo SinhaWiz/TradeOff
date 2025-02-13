@@ -1,13 +1,8 @@
 package test;
 import src.*;
-
-
 import org.junit.jupiter.api.Test;
-
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 public class MarketTest {
     @Test
     public void marketInitTest() {
@@ -16,7 +11,6 @@ public class MarketTest {
         boolean coinsEmpty = coins.isEmpty();
         assertFalse(coinsEmpty);
     }
-
     @Test
     public void marketSimulationTest() {
         Market market = new Market();
