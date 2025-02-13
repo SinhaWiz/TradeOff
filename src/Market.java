@@ -92,4 +92,17 @@ public class Market {
     public List<Coin> getCoins() {
         return new ArrayList<>(coins);
     }
+
+    public Map<Coin, Double> predictNextMovements() {
+        Map<Coin, Double> predictions = new HashMap<>();
+
+        for (Coin coin : coins) {
+            double volatility = getVolatility(coin);
+            double change = (random.nextGaussian() * volatility); 
+            predictions.put(coin, change);
+        }
+
+        return predictions;
+    }
+
 }
