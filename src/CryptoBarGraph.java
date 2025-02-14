@@ -83,8 +83,10 @@ public class CryptoBarGraph {
                     String[] parts = line.split(":");
                     if (parts.length == 2) {
                         String coinName = parts[0].trim();
-                        double price = Double.parseDouble(parts[1].trim().replace("$", ""));
-                        currentDayPrices.put(coinName, price);
+                        if(!coinName.equals("Player Balance") && !coinName.equals("Current Positions") && !coinName.equals("Current Market Prices") && !coinName.equals("Turns Remaining")) {
+                            double price = Double.parseDouble(parts[1].trim().replace("$", ""));
+                            currentDayPrices.put(coinName, price);
+                        }
                     }
                 } else if (line.startsWith("------------------------")) {
                     if (!currentDayPrices.isEmpty()) {
