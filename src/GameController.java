@@ -53,16 +53,9 @@ public class GameController {
     private void displayMenu() {
 
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
-        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
-        //System.out.println();
-      //  System.out.println("");
-
-        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
-
-        //System.out.println("");
-        //System.out.println("");
-        //System.out.println("");
-       // System.out.println("");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position             |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Bribe Market Insiders ($5000)  |+|+|+|");
+        System.out.println("|+|+|+|    9.Statistics      |+|+|+|                                         |+|+|+| 10.           Exit Game          |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -95,34 +88,40 @@ public class GameController {
                 clearConsole();
                 return false;
             case 8:
-                exitGame();
+                predictNextMovement();
                 return false;
             case 9:
-                predictNextMovement();
+                CryptoBarGraph.generateGraph("game_state.txt",5);
+                return false;
+            case 10:
+                exitGame();
                 return false;
             default:
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
     }
+
     private void predictNextMovement() {
         if (player.getBalance() >= 5000) {
             player.deductBalance(5000);
-            Map<Coin, Double> predictions = market.predictNextMovements();
+            Map<Coin, Integer> predictions = market.predictNextMovements();
 
-            System.out.println("Private Investigator Report:");
-            for (Map.Entry<Coin, Double> entry : predictions.entrySet()) {
+            System.out.println("Insider's Report:");
+            for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                 Coin coin = entry.getKey();
-                double change = entry.getValue();
+                int changeFactor = entry.getValue();
 
-                if (change > 0) {
-                    System.out.println(coin.getTicker() + " is expected to rise");
-                } else {
+                if (changeFactor == 1) {
+                    System.out.println(coin.getTicker() + " may go up.");
+                } else if (changeFactor == 0) {
                     System.out.println(coin.getTicker() + " may go down.");
+                } else {
+                    System.out.println(coin.getTicker() + " may go either way.");
                 }
             }
         } else {
-            System.out.println("Not enough balance ($5000 required) to hire the investigator.");
+            System.out.println("Not enough balance ($5000 required) to bribe the insider.");
         }
     }
 
@@ -336,18 +335,16 @@ public class GameController {
     }
 
     private void skipDay() {
-        if(turnsRemaining%16 == 0  ){
-
-            for (int  i = 0 ; i<16 ; i++) {
+        if (turnsRemaining%16 == 0) {
+            for (int  i = 0; i < 16; i++) {
                 turnsRemaining--;
                 market.simulateMarketMovement();
                 updatePositions();
                 saveGameState();
             }
-        }
-        else {
-          int  turns_to_skip = turnsRemaining%16;
-            for (int  i = 0 ; i< turns_to_skip; i++) {
+        } else {
+          int turnsToSkip = turnsRemaining%16;
+            for (int  i = 0; i < turnsToSkip; i++) {
                 turnsRemaining--;
                 market.simulateMarketMovement();
                 updatePositions();
