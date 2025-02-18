@@ -13,6 +13,7 @@ public class GameController {
     private Scanner scanner;
     private int turnsRemaining;
     private static final int MAX_TURNS = 160;
+    private Random gameRandom;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -22,6 +23,7 @@ public class GameController {
         this.tableGenerator = new MarketTableGenerator();
         this.scanner = new Scanner(System.in);
         this.turnsRemaining = MAX_TURNS;
+        this.gameRandom = new Random();
     }
 
     public void startGame() {
@@ -36,6 +38,7 @@ public class GameController {
                 saveGameState();
                 turnsRemaining--;
                 clearConsole();
+                randomPriceAlertEvent();
             }
         }
         displayFinalResults();
@@ -403,6 +406,48 @@ public class GameController {
             writer.write("------------------------\n");
         } catch (IOException e) {
             System.out.println("Error saving game state.");
+        }
+    }
+
+    private void randomPriceAlertEvent() {
+        if (gameRandom.nextDouble() < 0.15 && turnsRemaining != 0) {
+            priceAlertEvent();
+        }
+    }
+
+    private void priceAlertEvent() {
+        List<Coin> coins = market.getCoins();
+        List<Coin> negativeCoins = new ArrayList<>();
+        List<Coin> positiveCoins = new ArrayList<>();
+
+        for (Coin coin : coins) {
+            if (coin.isPossibleNegativeTrend()) {
+                negativeCoins.add(coin);
+            } else if (coin.isPossiblePositiveTrend()) {
+                positiveCoins.add(coin);
+            }
+        }
+
+        if (!negativeCoins.isEmpty() || !positiveCoins.isEmpty()) {
+            System.out.println("|$||$||$||$||$| BREAKING NEWS |$||$||$||$||$|");
+        }
+
+        if (!negativeCoins.isEmpty()) {
+            Coin negativeCoin = negativeCoins.get(gameRandom.nextInt(negativeCoins.size()));
+            if (gameRandom.nextBoolean()) {
+                System.out.println("DOOM! GLOOM! AND SOME MORE! " + negativeCoin.getTicker() + " WILL SURELY CRASH ANYTIME NOW! GRAB YOUR POPCORN AND WATCH THE WORLD BURN!"); // good event
+            } else {
+                System.out.println("ALERT! ALERT! ALERT! " + negativeCoin.getTicker() + " may just SKYROCKET and GO TO THE MOON! DON'T MISS OUT ON AN OPPORTUNITY OF A LIFETIME!"); // scam event
+            }
+        }
+
+        if (!positiveCoins.isEmpty()) {
+            Coin positiveCoin = positiveCoins.get(gameRandom.nextInt(positiveCoins.size()));
+            if (!gameRandom.nextBoolean()) {
+                System.out.println("DOOM! GLOOM! AND SOME MORE! " + positiveCoin.getTicker() + " WILL SURELY CRASH ANYTIME NOW! GRAB YOUR POPCORN AND WATCH THE WORLD BURN!"); // scam event
+            } else {
+                System.out.println("ALERT! ALERT! ALERT! " + positiveCoin.getTicker() + " may just SKYROCKET and GO TO THE MOON! DON'T MISS OUT ON AN OPPORTUNITY OF A LIFETIME!"); // good event
+            }
         }
     }
 
