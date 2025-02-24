@@ -14,6 +14,7 @@ public class GameController {
     private int turnsRemaining;
     private static final int MAX_TURNS = 160;
     private Random gameRandom;
+    private PriceHistoryLoader priceHistoryLoader;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -24,6 +25,7 @@ public class GameController {
         this.scanner = new Scanner(System.in);
         this.turnsRemaining = MAX_TURNS;
         this.gameRandom = new Random();
+        PriceHistoryLoader.init();
     }
 
     public void startGame() {
