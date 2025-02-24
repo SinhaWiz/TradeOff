@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.*;
 
 public class SaveManager {
-    private static final String SAVE_FILE = "game_save.txt";
+    private static final String SAVE_FILE = "game_state.txt";
 
     public void saveGameState(GameState state) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {

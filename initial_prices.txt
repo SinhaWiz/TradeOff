@@ -1,3 +1,31 @@
+Bitcoin,BTC,53400
+Ethereum,ETH,3782
+Binance Coin,BNB,418
+Solana,SOL,106
+Ripple,XRP,1.3
+Cardano,ADA,1.56
+
+Bitcoin,BTC,52400
+Ethereum,ETH,3009
+Binance Coin,BNB,500
+Solana,SOL,109
+Ripple,XRP,0.8
+Cardano,ADA,1.4
+
+Bitcoin,BTC,50078
+Ethereum,ETH,3010
+Binance Coin,BNB,499
+Solana,SOL,106
+Ripple,XRP,0.8
+Cardano,ADA,1.7
+
+Bitcoin,BTC,51500
+Ethereum,ETH,3190
+Binance Coin,BNB,470.6
+Solana,SOL,102
+Ripple,XRP,0.69
+Cardano,ADA,1.54
+
 Bitcoin,BTC,50000
 Ethereum,ETH,3000
 Binance Coin,BNB,400

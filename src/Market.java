@@ -11,6 +11,9 @@ public class Market {
     private static final String INITIAL_PRICES_FILE = "initial_prices.txt";
     private static final String PRICE_HISTORY_FILE = "price_history.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final double BASE_MU = 0.0005;  // Stronger daily drift
+    private static final double SIGMA = 0.65; // High volatility factor
+    private static final double DT = 1.0 / 252; // Time step (1 day in trading)
 
     public Market() {
         this.coins = new ArrayList<>();
@@ -42,38 +45,93 @@ public class Market {
         coins.add(new Coin("Dogecoin", "DOGE", 0.15));
     }
 
-    public void simulateMarketMovement() {
+    private void setTrends() {
         for (Coin coin : coins) {
-            // More realistic market movement simulation
-            double volatility = getVolatility(coin);
-            double change = (random.nextGaussian() * volatility);
-            double newPrice = coin.getPrice() * (1 + change);
-            // Ensure price doesn't go below 0
-            newPrice = Math.max(0.01, newPrice);
-            coin.updatePrice(newPrice);
+            if (!coin.isPossibleNegativeTrend() && !coin.isPossiblePositiveTrend()) {
+                if (random.nextDouble() < 0.2) {
+                    if (random.nextBoolean()) {
+                        coin.setPossiblePositiveTrend(true);
+                    } else {
+                        coin.setPossibleNegativeTrend(true);
+                    }
+                }
+            }
         }
-        savePriceHistory();
     }
 
-    private double getVolatility(Coin coin) {
-        // Different coins have different volatility levels
-        switch (coin.getTicker()) {
-            case "BTC":
-                return 0.05; // 5% volatility
-            case "ETH":
-                return 0.07;
-            case "BNB":
-                return 0.08;
-            case "ADA":
-                return 0.10;
-            case "SOL":
-                return 0.12;
-            case "DOGE":
-                return 0.15; // Highest volatility
-            default:
-                return 0.10;
+    private void removeTrends() {
+        for (Coin coin : coins) {
+            if (random.nextDouble() < 0.2) {
+                coin.setPossiblePositiveTrend(false);
+                coin.setPossibleNegativeTrend(false);
+            }
         }
     }
+
+    private double calculateChangeFactor(Coin coin) {
+        double epsilon = random.nextGaussian();
+        double changeFactor = 0;
+
+        if (coin.isPossiblePositiveTrend()) {
+            for (int i = 0; i < 50; i++) {
+                changeFactor = Math.exp((BASE_MU - 0.5 * SIGMA * SIGMA) * DT + SIGMA * epsilon * Math.sqrt(DT));
+                if (changeFactor >= 1) break;
+            }
+        } else if (coin.isPossibleNegativeTrend()) {
+            for (int i = 0; i < 50; i++) {
+                changeFactor = Math.exp((BASE_MU - 0.5 * SIGMA * SIGMA) * DT + SIGMA * epsilon * Math.sqrt(DT));
+                if (changeFactor < 1) break;
+            }
+        } else {
+            changeFactor = Math.exp((BASE_MU - 0.5 * SIGMA * SIGMA) * DT + SIGMA * epsilon * Math.sqrt(DT));
+        }
+
+        return changeFactor;
+    }
+
+    public void simulateMarketMovement(){
+        setTrends();
+        for (Coin coin : coins) {
+            double changeFactor = calculateChangeFactor(coin);
+            double newPrice = coin.getPrice() * changeFactor;
+            newPrice = Math.max(0.0001, newPrice);
+            coin.updatePrice(newPrice);
+        }
+        removeTrends();
+    }
+
+//    public void simulateMarketMovement() {
+//        for (Coin coin : coins) {
+//            // More realistic market movement simulation
+//            double volatility = getVolatility(coin);
+//            double change = (random.nextGaussian() * volatility);
+//            double newPrice = coin.getPrice() * (1 + change);
+//            // Ensure price doesn't go below 0
+//            newPrice = Math.max(0.01, newPrice);
+//            coin.updatePrice(newPrice);
+//        }
+//        savePriceHistory();
+//    }
+//
+//    private double getVolatility(Coin coin) {
+//        // Different coins have different volatility levels
+//        switch (coin.getTicker()) {
+//            case "BTC":
+//                return 0.05; // 5% volatility
+//            case "ETH":
+//                return 0.07;
+//            case "BNB":
+//                return 0.08;
+//            case "ADA":
+//                return 0.10;
+//            case "SOL":
+//                return 0.12;
+//            case "DOGE":
+//                return 0.15; // Highest volatility
+//            default:
+//                return 0.10;
+//        }
+//    }
 
     private void savePriceHistory() {
         try (FileWriter writer = new FileWriter(PRICE_HISTORY_FILE, true)) {
@@ -93,6 +151,27 @@ public class Market {
         return new ArrayList<>(coins);
     }
 
+    public Map<Coin, Integer> predictNextMovements() {
+        Map<Coin, Integer> predictions = new HashMap<>();
+
+        for (Coin coin : coins) {
+            int changeFactorFlag;
+
+            if (coin.isPossiblePositiveTrend()) {
+                changeFactorFlag = 1;
+            } else if (coin.isPossibleNegativeTrend()) {
+                changeFactorFlag = 0;
+            } else {
+                changeFactorFlag = -1;
+            }
+
+            predictions.put(coin, changeFactorFlag);
+        }
+
+        return predictions;
+    }
+
+/*
     public Map<Coin, Double> predictNextMovements() {
         Map<Coin, Double> predictions = new HashMap<>();
 
@@ -104,5 +183,6 @@ public class Market {
 
         return predictions;
     }
+*/
 
 }

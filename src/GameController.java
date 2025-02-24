@@ -13,6 +13,8 @@ public class GameController {
     private Scanner scanner;
     private int turnsRemaining;
     private static final int MAX_TURNS = 160;
+    private Random gameRandom;
+    private PriceHistoryLoader priceHistoryLoader;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -22,6 +24,8 @@ public class GameController {
         this.tableGenerator = new MarketTableGenerator();
         this.scanner = new Scanner(System.in);
         this.turnsRemaining = MAX_TURNS;
+        this.gameRandom = new Random();
+        PriceHistoryLoader.init();
     }
 
     public void startGame() {
@@ -36,6 +40,7 @@ public class GameController {
                 saveGameState();
                 turnsRemaining--;
                 clearConsole();
+                randomPriceAlertEvent();
             }
         }
         displayFinalResults();
@@ -53,16 +58,9 @@ public class GameController {
     private void displayMenu() {
 
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
-        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position|+|+|+|");
-        //System.out.println();
-      //  System.out.println("");
-
-        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6. Skip Turn    |+|+|+| 7.Skip a day    |+|+|+| 8. Exit             |+|+|+|");
-
-        //System.out.println("");
-        //System.out.println("");
-        //System.out.println("");
-       // System.out.println("");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position             |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Bribe Market Insiders ($5000)  |+|+|+|");
+        System.out.println("|+|+|+|    9.Statistics      |+|+|+|                                         |+|+|+| 10.           Exit Game          |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -95,34 +93,40 @@ public class GameController {
                 clearConsole();
                 return false;
             case 8:
-                exitGame();
+                predictNextMovement();
                 return false;
             case 9:
-                predictNextMovement();
+                CryptoBarGraph.generateGraph("game_state.txt",5);
+                return false;
+            case 10:
+                exitGame();
                 return false;
             default:
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
     }
+
     private void predictNextMovement() {
         if (player.getBalance() >= 5000) {
             player.deductBalance(5000);
-            Map<Coin, Double> predictions = market.predictNextMovements();
+            Map<Coin, Integer> predictions = market.predictNextMovements();
 
-            System.out.println("Private Investigator Report:");
-            for (Map.Entry<Coin, Double> entry : predictions.entrySet()) {
+            System.out.println("Insider's Report:");
+            for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                 Coin coin = entry.getKey();
-                double change = entry.getValue();
+                int changeFactor = entry.getValue();
 
-                if (change > 0) {
-                    System.out.println(coin.getTicker() + " is expected to rise");
-                } else {
+                if (changeFactor == 1) {
+                    System.out.println(coin.getTicker() + " may go up.");
+                } else if (changeFactor == 0) {
                     System.out.println(coin.getTicker() + " may go down.");
+                } else {
+                    System.out.println(coin.getTicker() + " may go either way.");
                 }
             }
         } else {
-            System.out.println("Not enough balance ($5000 required) to hire the investigator.");
+            System.out.println("Not enough balance ($5000 required) to bribe the insider.");
         }
     }
 
@@ -336,11 +340,21 @@ public class GameController {
     }
 
     private void skipDay() {
-        if(turnsRemaining%16 == 0  ){
-            turnsRemaining-=16;
-        }
-        else {
-            turnsRemaining -= turnsRemaining % 16;
+        if (turnsRemaining%16 == 0) {
+            for (int  i = 0; i < 16; i++) {
+                turnsRemaining--;
+                market.simulateMarketMovement();
+                updatePositions();
+                saveGameState();
+            }
+        } else {
+          int turnsToSkip = turnsRemaining%16;
+            for (int  i = 0; i < turnsToSkip; i++) {
+                turnsRemaining--;
+                market.simulateMarketMovement();
+                updatePositions();
+                saveGameState();
+            }
         }
         System.out.println("Day skipped. Market will update and affect your current positions.");
     }
@@ -394,6 +408,48 @@ public class GameController {
             writer.write("------------------------\n");
         } catch (IOException e) {
             System.out.println("Error saving game state.");
+        }
+    }
+
+    private void randomPriceAlertEvent() {
+        if (gameRandom.nextDouble() < 0.15 && turnsRemaining != 0) {
+            priceAlertEvent();
+        }
+    }
+
+    private void priceAlertEvent() {
+        List<Coin> coins = market.getCoins();
+        List<Coin> negativeCoins = new ArrayList<>();
+        List<Coin> positiveCoins = new ArrayList<>();
+
+        for (Coin coin : coins) {
+            if (coin.isPossibleNegativeTrend()) {
+                negativeCoins.add(coin);
+            } else if (coin.isPossiblePositiveTrend()) {
+                positiveCoins.add(coin);
+            }
+        }
+
+        if (!negativeCoins.isEmpty() || !positiveCoins.isEmpty()) {
+            System.out.println("|$||$||$||$||$| BREAKING NEWS |$||$||$||$||$|");
+        }
+
+        if (!negativeCoins.isEmpty()) {
+            Coin negativeCoin = negativeCoins.get(gameRandom.nextInt(negativeCoins.size()));
+            if (gameRandom.nextBoolean()) {
+                System.out.println("DOOM! GLOOM! AND SOME MORE! " + negativeCoin.getTicker() + " WILL SURELY CRASH ANYTIME NOW! GRAB YOUR POPCORN AND WATCH THE WORLD BURN!"); // good event
+            } else {
+                System.out.println("ALERT! ALERT! ALERT! " + negativeCoin.getTicker() + " may just SKYROCKET and GO TO THE MOON! DON'T MISS OUT ON AN OPPORTUNITY OF A LIFETIME!"); // scam event
+            }
+        }
+
+        if (!positiveCoins.isEmpty()) {
+            Coin positiveCoin = positiveCoins.get(gameRandom.nextInt(positiveCoins.size()));
+            if (!gameRandom.nextBoolean()) {
+                System.out.println("DOOM! GLOOM! AND SOME MORE! " + positiveCoin.getTicker() + " WILL SURELY CRASH ANYTIME NOW! GRAB YOUR POPCORN AND WATCH THE WORLD BURN!"); // scam event
+            } else {
+                System.out.println("ALERT! ALERT! ALERT! " + positiveCoin.getTicker() + " may just SKYROCKET and GO TO THE MOON! DON'T MISS OUT ON AN OPPORTUNITY OF A LIFETIME!"); // good event
+            }
         }
     }
 
