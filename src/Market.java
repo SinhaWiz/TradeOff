@@ -12,7 +12,7 @@ public class Market {
     private static final String PRICE_HISTORY_FILE = "price_history.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     private static final double BASE_MU = 0.0005;  // Stronger daily drift
-    private static final double SIGMA = 0.65; // High volatility factor
+    private static double SIGMA = 0.65; // High volatility factor
     private static final double DT = 1.0 / 252; // Time step (1 day in trading)
 
     public Market() {
@@ -98,6 +98,10 @@ public class Market {
             coin.updatePrice(newPrice);
         }
         removeTrends();
+    }
+
+    public void incrementVolatility() {
+        SIGMA = SIGMA + 0.05;
     }
 
 //    public void simulateMarketMovement() {

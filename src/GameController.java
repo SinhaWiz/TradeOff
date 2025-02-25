@@ -41,6 +41,7 @@ public class GameController {
                 turnsRemaining--;
                 clearConsole();
                 randomPriceAlertEvent();
+                randomVolatilityEvent();
             }
         }
         displayFinalResults();
@@ -450,6 +451,13 @@ public class GameController {
             } else {
                 System.out.println("ALERT! ALERT! ALERT! " + positiveCoin.getTicker() + " may just SKYROCKET and GO TO THE MOON! DON'T MISS OUT ON AN OPPORTUNITY OF A LIFETIME!"); // good event
             }
+        }
+    }
+
+    private void randomVolatilityEvent() {
+        if (gameRandom.nextDouble() < 0.05 && turnsRemaining != 0) {
+            market.incrementVolatility();
+            System.out.println("MARKET ALERT: Due to recent developments, expect more volatility when trading.");
         }
     }
 
