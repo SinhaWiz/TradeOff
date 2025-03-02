@@ -109,8 +109,8 @@ public class GameController {
     }
 
     private void predictNextMovement() {
-        if (player.getBalance() >= 5000) {
-            player.deductBalance(5000);
+        if (player.getBalance() >= 30000) {
+            player.deductBalance(30000);
             Map<Coin, Integer> predictions = market.predictNextMovements();
 
             System.out.println("Insider's Report:");
