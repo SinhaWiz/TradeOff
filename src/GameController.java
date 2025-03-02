@@ -15,6 +15,7 @@ public class GameController {
     private static final int MAX_TURNS = 160;
     private Random gameRandom;
     private PriceHistoryLoader priceHistoryLoader;
+    private int marketAnalystAttempts = 3;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -109,25 +110,33 @@ public class GameController {
     }
 
     private void predictNextMovement() {
-        if (player.getBalance() >= 30000) {
-            player.deductBalance(30000);
-            Map<Coin, Integer> predictions = market.predictNextMovements();
+        if (marketAnalystAttempts > 0) {
+            if (player.getBalance() >= 30000) {
+                player.deductBalance(30000);  // Deduct balance for market analyst fee
+                marketAnalystAttempts--;  // Reduce available attempts
 
-            System.out.println("Insider's Report:");
-            for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
-                Coin coin = entry.getKey();
-                int changeFactor = entry.getValue();
+                Map<Coin, Integer> predictions = market.predictNextMovements();
 
-                if (changeFactor == 1) {
-                    System.out.println(coin.getTicker() + " may go up.");
-                } else if (changeFactor == 0) {
-                    System.out.println(coin.getTicker() + " may go down.");
-                } else {
-                    System.out.println(coin.getTicker() + " may go either way.");
+                System.out.println("Insider's Report:");
+                for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
+                    Coin coin = entry.getKey();
+                    int changeFactor = entry.getValue();
+
+                    if (changeFactor == 1) {
+                        System.out.println(coin.getTicker() + " may go up.");
+                    } else if (changeFactor == 0) {
+                        System.out.println(coin.getTicker() + " may go down.");
+                    } else {
+                        System.out.println(coin.getTicker() + " may go either way.");
+                    }
                 }
+
+                System.out.println("Attempts left: " + marketAnalystAttempts);
+            } else {
+                System.out.println("Not enough balance ($30000 required) ");
             }
         } else {
-            System.out.println("Not enough balance ($5000 required) to bribe the insider.");
+            System.out.println("You have exceeded the maximum number of attempts to consult the market analyst.");
         }
     }
 
