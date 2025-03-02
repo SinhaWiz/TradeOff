@@ -1,4 +1,7 @@
 package src;
+
+import java.util.Objects;
+
 public class Coin {
     private String name;
     private String ticker;
@@ -11,15 +14,19 @@ public class Coin {
         this.ticker = ticker;
         this.price = initialPrice;
     }
+
     public double getPrice() {
         return price;
     }
+
     public void updatePrice(double newPrice) {
         this.price = newPrice;
     }
+
     public String getName() {
         return name;
     }
+
     public String getTicker() {
         return ticker;
     }
@@ -39,4 +46,18 @@ public class Coin {
     public void setPossibleNegativeTrend(boolean possibleNegativeTrend) {
         this.possibleNegativeTrend = possibleNegativeTrend;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coin coin = (Coin) o;
+        return ticker.equals(coin.ticker);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ticker);
+    }
 }
+

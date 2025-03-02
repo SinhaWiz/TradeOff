@@ -161,19 +161,22 @@ public class Market {
         for (Coin coin : coins) {
             int changeFactorFlag;
 
+            // Check if coin has a possible positive or negative trend
             if (coin.isPossiblePositiveTrend()) {
-                changeFactorFlag = 1;
+                changeFactorFlag = 1;  // Positive trend
             } else if (coin.isPossibleNegativeTrend()) {
-                changeFactorFlag = 0;
+                changeFactorFlag = 0;  // Negative trend
             } else {
-                changeFactorFlag = -1;
+                changeFactorFlag = -1;  // No clear trend
             }
 
+            // Add the coin and its prediction to the map
             predictions.put(coin, changeFactorFlag);
         }
 
         return predictions;
     }
+
 
 /*
     public Map<Coin, Double> predictNextMovements() {

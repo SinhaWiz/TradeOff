@@ -133,6 +133,7 @@ public class GameController {
 
 
 
+
     private void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
