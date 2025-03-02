@@ -61,8 +61,8 @@ public class GameController {
 
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
         System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position             |+|+|+|");
-        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Market Analyst ($30000)  |+|+|+|");
-        System.out.println("|+|+|+|    9.Statistics      |+|+|+|                                         |+|+|+| 10.           Exit Game          |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Market Analyst ($75000) (" + marketAnalystAttempts + "/3)  |+|+|+|");
+        System.out.println("|+|+|+| 9.Statistics         |+|+|+|                                         |+|+|+| 10.Exit Game                     |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -111,8 +111,8 @@ public class GameController {
 
     private void predictNextMovement() {
         if (marketAnalystAttempts > 0) {
-            if (player.getBalance() >= 30000) {
-                player.deductBalance(30000);  // Deduct balance for market analyst fee
+            if (player.getBalance() >= 75000) {
+                player.deductBalance(75000);  // Deduct balance for market analyst fee
                 marketAnalystAttempts--;  // Reduce available attempts
 
                 Map<Coin, Integer> predictions = market.predictNextMovements();
@@ -185,7 +185,7 @@ public class GameController {
                 .findFirst();
 
         if (selectedCoin.isPresent()) {
-            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 100x   6. No Leverage");
+            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 50x   6. No Leverage");
             int leverage = 0;
             int leverageOption = scanner.nextInt();
             switch(leverageOption) {
@@ -202,7 +202,7 @@ public class GameController {
                     leverage = 25;
                     break;
                 case 5:
-                    leverage = 100;
+                    leverage = 50;
                     break;
                 case 6:
                     leverage = 1;
@@ -250,7 +250,7 @@ public class GameController {
                 .findFirst();
 
         if (selectedCoin.isPresent()) {
-            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 100x   6. No Leverage");
+            System.out.println("Select leverage: 1. 2x   2. 5x   3. 10x   4. 25x   5. 50x   6. No Leverage");
             int leverage = 0;
             int leverageOption = scanner.nextInt();
             switch(leverageOption) {
@@ -267,7 +267,7 @@ public class GameController {
                     leverage = 25;
                     break;
                 case 5:
-                    leverage = 100;
+                    leverage = 50;
                     break;
                 case 6:
                     leverage = 1;
