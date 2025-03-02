@@ -117,7 +117,7 @@ public class GameController {
 
                 Map<Coin, Integer> predictions = market.predictNextMovements();
 
-                System.out.println("Insider's Report:");
+                System.out.println("Analyst's Report:");
                 for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                     Coin coin = entry.getKey();
                     int changeFactor = entry.getValue();
