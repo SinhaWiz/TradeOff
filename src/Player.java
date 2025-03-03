@@ -3,7 +3,12 @@ package src;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Player {
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Player implements Serializable {
+    private static final long serialVersionUID = 1L;  //
     private double balance;
     private Map<Coin, Double> portfolio;
 

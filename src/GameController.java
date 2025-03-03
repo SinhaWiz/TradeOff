@@ -1,6 +1,5 @@
 package src;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -58,11 +57,10 @@ public class GameController {
     }
 
     private void displayMenu() {
-
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
-        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio|+|+|+| 3.Close Position|+|+|+| 4.Open Long Position             |+|+|+|");
-        System.out.println("|+|+|+| 5.Open Short Position|+|+|+| 6.Skip Turn     |+|+|+| 7.Skip a day    |+|+|+| 8.Market Analyst ($75000) (" + marketAnalystAttempts + "/3)  |+|+|+|");
-        System.out.println("|+|+|+| 9.Statistics         |+|+|+|                                         |+|+|+| 10.Exit Game                     |+|+|+|");
+        System.out.println("|+|+|+| 1.View Market        |+|+|+| 2.View Portfolio |+|+|+| 3.Close Position        |+|+|+| 4.Open Long Position             |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day         |+|+|+| 8.Market Analyst ($75000) (" + marketAnalystAttempts + "/3) |+|+|+|");
+        System.out.println("|+|+|+| 9.Statistics         |+|+|+| 10.Save Game    |+|+|+| 11.Load Game           |+|+|+| 12.Exit Game |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
 
@@ -84,7 +82,7 @@ public class GameController {
                 closePosition();
                 return false;
             case 4:
-                return openLongPosition() ;
+                return openLongPosition();
             case 5:
                 return openShortPosition();
             case 6:
@@ -98,15 +96,22 @@ public class GameController {
                 predictNextMovement();
                 return false;
             case 9:
-                CryptoBarGraph.generateGraph("game_state.txt",5);
+                CryptoBarGraph.generateGraph("game_state.txt", 5);
                 return false;
             case 10:
+                saveGame();
+                return false;
+            case 11:
+                loadGame();
+                return false;
+            case 12:
                 exitGame();
                 return false;
             default:
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
+
     }
 
     private void predictNextMovement() {
@@ -515,10 +520,33 @@ public class GameController {
         }
     }
 
-    public static String getPlayerName() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Please enter your name: ");
-        String name = scanner.nextLine();
-        return name;
+    private static String filename = "game_save.dat";
+    public void saveGame() {
+        if (player != null) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+                out.writeDouble(player.getBalance());
+                out.writeObject(player.getPortfolio());
+                System.out.println("Game saved successfully!");
+            } catch (IOException e) {
+                System.out.println("Error saving the game: " + e.getMessage());
+            }
+        } else {
+            System.out.println("No player data to save.");
+        }
+    }
+
+    public void loadGame() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+            double balance = in.readDouble();
+            @SuppressWarnings("unchecked")
+            Map<Coin, Double> portfolio = (Map<Coin, Double>) in.readObject();
+            player = new Player(balance);
+            player.getPortfolio().clear();
+            player.getPortfolio().putAll(portfolio);
+
+            System.out.println("Game loaded successfully!");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading the game: " + e.getMessage());
+        }
     }
 }

@@ -1,8 +1,10 @@
 package src;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Coin {
+public class Coin implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String ticker;
     private double price;
