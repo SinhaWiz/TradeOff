@@ -514,4 +514,11 @@ public class GameController {
             e.printStackTrace();
         }
     }
+
+    public static String getPlayerName() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Please enter your name: ");
+        String name = scanner.nextLine();
+        return name;
+    }
 }
