@@ -23,7 +23,11 @@ public class PositionManager {
             positions.remove(index);
         }
     }
-    
+
+    public void setPositions(List<Trade> positions) {
+        this.positions = positions;
+    }
+
     public List<Trade> getPositions() {
         return positions;
     }

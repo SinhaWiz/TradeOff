@@ -2,7 +2,9 @@ package src;
 
 import src.Coin;
 
-public abstract class Trade {
+import java.io.Serializable;
+
+public abstract class Trade implements Serializable {
     protected double quantity;
     protected Coin coin;
     protected double entryPrice;

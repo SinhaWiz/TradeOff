@@ -525,10 +525,12 @@ public class GameController {
         if (player != null) {
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
                 out.writeDouble(player.getBalance());
-                out.writeObject(player.getPortfolio());
+                out.writeObject(positions.getPositions());
+                out.writeInt(getTurnsRemaining());
                 System.out.println("Game saved successfully!");
             } catch (IOException e) {
                 System.out.println("Error saving the game: " + e.getMessage());
+                e.printStackTrace();
             }
         } else {
             System.out.println("No player data to save.");
@@ -539,14 +541,23 @@ public class GameController {
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
             double balance = in.readDouble();
             @SuppressWarnings("unchecked")
-            Map<Coin, Double> portfolio = (Map<Coin, Double>) in.readObject();
+            List<Trade> positionsLoaded = (List<Trade>) in.readObject();
+            int savedTurns = in.readInt();
             player = new Player(balance);
-            player.getPortfolio().clear();
-            player.getPortfolio().putAll(portfolio);
-
+            positions.setPositions(positionsLoaded);
+            setTurnsRemaining(savedTurns);
             System.out.println("Game loaded successfully!");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading the game: " + e.getMessage());
+            e.printStackTrace();
         }
+    }
+
+    public int getTurnsRemaining() {
+        return turnsRemaining;
+    }
+
+    public void setTurnsRemaining(int turnsRemaining) {
+        this.turnsRemaining = turnsRemaining;
     }
 }
