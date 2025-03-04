@@ -138,7 +138,7 @@ public class GameController {
 
                 System.out.println("Attempts left: " + marketAnalystAttempts);
             } else {
-                System.out.println("Not enough balance ($30000 required) ");
+                System.out.println("Not enough balance ($75000 required) ");
             }
         } else {
             System.out.println("You have exceeded the maximum number of attempts to consult the market analyst.");
