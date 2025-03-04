@@ -527,6 +527,7 @@ public class GameController {
                 out.writeDouble(player.getBalance());
                 out.writeObject(positions.getPositions());
                 out.writeInt(getTurnsRemaining());
+                out.writeInt(marketAnalystAttempts);
                 System.out.println("Game saved successfully!");
             } catch (IOException e) {
                 System.out.println("Error saving the game: " + e.getMessage());
