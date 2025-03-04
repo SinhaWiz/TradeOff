@@ -12,6 +12,7 @@ public class GameController {
     private Scanner scanner;
     private int turnsRemaining;
     private static final int MAX_TURNS = 160;
+    private static final String SAVE_FILE = "game_save.dat";
     private Random gameRandom;
     private PriceHistoryLoader priceHistoryLoader;
     private int marketAnalystAttempts = 3;
@@ -28,8 +29,31 @@ public class GameController {
         PriceHistoryLoader.init();
     }
 
-    public void startGame() {
+    public void displayStartMenu() {
         displayWelcomeMessage();
+        System.out.println("1. Start New Game");
+        System.out.println("2. Load Game");
+        System.out.println("3. Exit");
+
+        System.out.print("Enter your choice: ");
+        int choice = scanner.nextInt();
+        switch(choice) {
+            case 1:
+                startGame();
+                break;
+            case 2:
+                loadGameStartMenu();
+                break;
+            case 3:
+                exitGame();
+                break;
+            default:
+                System.out.println("Invalid option.");
+                choice = scanner.nextInt();
+        }
+    }
+
+    public void startGame() {
         while (turnsRemaining > 0) {
             System.out.println("\nTurns remaining: " + turnsRemaining);
             displayMenu();
@@ -102,7 +126,7 @@ public class GameController {
                 saveGame();
                 return false;
             case 11:
-                loadGame();
+                loadGameMidGame();
                 return false;
             case 12:
                 exitGame();
@@ -520,13 +544,14 @@ public class GameController {
         }
     }
 
-    private static String filename = "game_save.dat";
     public void saveGame() {
         if (player != null) {
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(SAVE_FILE))) {
                 out.writeDouble(player.getBalance());
                 out.writeObject(positions.getPositions());
                 out.writeInt(getTurnsRemaining());
+                out.writeObject(market.getCoins());
+                out.writeInt(marketAnalystAttempts);
                 System.out.println("Game saved successfully!");
             } catch (IOException e) {
                 System.out.println("Error saving the game: " + e.getMessage());
@@ -537,16 +562,39 @@ public class GameController {
         }
     }
 
-    public void loadGame() {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename))) {
+    public void loadGameMidGame() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
+            double balance = in.readDouble();
+            @SuppressWarnings("unchecked")
+            List<Trade> positionsLoaded = (List<Trade>) in.readObject();
+            int loadedTurns = in.readInt();
+            List<Coin> coinsLoaded = (List<Coin>) in.readObject();
+            player = new Player(balance);
+            positions.setPositions(positionsLoaded);
+            setTurnsRemaining(loadedTurns);
+            market.setCoins(coinsLoaded);
+            marketAnalystAttempts=in.readInt();
+            System.out.println("Game loaded successfully!");
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading the game: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void loadGameStartMenu() {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(SAVE_FILE))) {
             double balance = in.readDouble();
             @SuppressWarnings("unchecked")
             List<Trade> positionsLoaded = (List<Trade>) in.readObject();
             int savedTurns = in.readInt();
+            List<Coin> coinsLoaded = (List<Coin>) in.readObject();
             player = new Player(balance);
             positions.setPositions(positionsLoaded);
             setTurnsRemaining(savedTurns);
+            market.setCoins(coinsLoaded);
+            marketAnalystAttempts=in.readInt();
             System.out.println("Game loaded successfully!");
+            startGame();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading the game: " + e.getMessage());
             e.printStackTrace();
@@ -559,5 +607,13 @@ public class GameController {
 
     public void setTurnsRemaining(int turnsRemaining) {
         this.turnsRemaining = turnsRemaining;
+    }
+
+    public Market getMarket() {
+        return market;
+    }
+
+    public void setMarket(Market market) {
+        this.market = market;
     }
 }

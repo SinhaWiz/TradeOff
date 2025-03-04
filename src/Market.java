@@ -5,7 +5,7 @@ import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Market {
+public class Market implements Serializable {
     private List<Coin> coins;
     private Random random;
     private static final String INITIAL_PRICES_FILE = "initial_prices.txt";
@@ -155,6 +155,10 @@ public class Market {
         return new ArrayList<>(coins);
     }
 
+    public void setCoins(List<Coin> coins) {
+        this.coins = coins;
+    }
+
     public Map<Coin, Integer> predictNextMovements() {
         Map<Coin, Integer> predictions = new HashMap<>();
 
@@ -177,8 +181,7 @@ public class Market {
         return predictions;
     }
 
-
-/*
+    /*
     public Map<Coin, Double> predictNextMovements() {
         Map<Coin, Double> predictions = new HashMap<>();
 
