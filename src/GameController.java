@@ -547,6 +547,7 @@ public class GameController {
             player = new Player(balance);
             positions.setPositions(positionsLoaded);
             setTurnsRemaining(savedTurns);
+            marketAnalystAttempts=in.readInt();
             System.out.println("Game loaded successfully!");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading the game: " + e.getMessage());
