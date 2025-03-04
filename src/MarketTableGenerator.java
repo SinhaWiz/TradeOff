@@ -5,10 +5,10 @@ import java.util.*;
 
 public class MarketTableGenerator {
     public void displayTable(List<Coin> coins) {
-        Map<String, Double> currentPrices = getCurrentPrices();
+//        Map<String, Double> currentPrices = getCurrentPrices();
 
         // Use a Set to track processed coins and avoid duplicates
-        Set<String> processedCoins = new HashSet<>();
+//        Set<String> processedCoins = new HashSet<>();
 
         System.out.println("\n=== Current Market Prices ===");
         System.out.println(String.format("%-15s %-10s %-15s", "|    Coin", "|   Ticker  |", "    Price     |"));
@@ -16,6 +16,13 @@ public class MarketTableGenerator {
 
         for (Coin coin : coins) {
             String ticker = coin.getTicker();
+            double price = coin.getPrice();
+            System.out.printf("|%-15s %-10s $%-15.2f" + "|" + "\n",
+                    coin.getName(),
+                    ticker,
+                    price);
+
+            /*
             // Only process each coin once
             if (!processedCoins.contains(ticker)) {
                 double price = currentPrices.getOrDefault(ticker, coin.getPrice());
@@ -25,6 +32,7 @@ public class MarketTableGenerator {
                         price);
                 processedCoins.add(ticker);
             }
+            */
         }
         System.out.println("|___________________________________________|");
     }
