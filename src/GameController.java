@@ -83,7 +83,7 @@ public class GameController {
     public void displayMenu() {
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
         System.out.println("|+|+|+| 1.View Market         |+|+|+| 2.View Portfolio |+|+|+| 3.Close Position       |+|+|+| 4.Open Long Position             |+|+|+|");
-        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Market Analyst ($75000) (" + marketAnalystAttempts + "/3)  |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Black Market Analyst  (" + marketAnalystAttempts + "/3)  |+|+|+|");
         System.out.println("|+|+|+| 9.Statistics          |+|+|+| 10.Save Game     |+|+|+| 11.Load Game           |+|+|+| 12.Exit Game                     |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
@@ -138,31 +138,56 @@ public class GameController {
 
     }
 
-    private void predictNextMovement() {
+    public void predictNextMovement() {
         if (marketAnalystAttempts > 0) {
-            if (player.getBalance() >= 75000) {
-                player.deductBalance(75000);  // Deduct balance for market analyst fee
-                marketAnalystAttempts--;  // Reduce available attempts
+            int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000; // Price increases by 10000 per turn
+            if (player.getBalance() >= currentPrice) {
+                System.out.println("WARNING: Consulting the black market analyst is a dangerous activity!");
+                System.out.println("If you get caught, you will be sent to jail and 20 turns will be skipped.");
+                System.out.println("Do you want to proceed? (y/n)");
+                Scanner scanner = new Scanner(System.in);
+                String decision = scanner.next().toLowerCase();
 
-                Map<Coin, Integer> predictions = market.predictNextMovements();
+                if (decision.equals("y")) {
+                    player.deductBalance(currentPrice);
+                    marketAnalystAttempts--;
 
-                System.out.println("Analyst's Report:");
-                for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
-                    Coin coin = entry.getKey();
-                    int changeFactor = entry.getValue();
+                    if (gameRandom.nextDouble() < 0.5) {
+                        System.out.println("Oh no! You have been caught by the authorities!");
+                        System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
+                        for (int i = 0; i < 20; i++) {
+                            turnsRemaining--;
+                            market.simulateMarketMovement();
+                            updatePositions();
+                            saveGameState();
+                        }
 
-                    if (changeFactor == 1) {
-                        System.out.println(coin.getTicker() + " may go up.");
-                    } else if (changeFactor == 0) {
-                        System.out.println(coin.getTicker() + " may go down.");
+                        System.out.println("You are now out of jail. Be careful next time!");
                     } else {
-                        System.out.println(coin.getTicker() + " may go either way.");
-                    }
-                }
 
-                System.out.println("Attempts left: " + marketAnalystAttempts);
+                        Map<Coin, Integer> predictions = market.predictNextMovements();
+
+                        System.out.println("Analyst's Report:");
+                        for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
+                            Coin coin = entry.getKey();
+                            int changeFactor = entry.getValue();
+
+                            if (changeFactor == 1) {
+                                System.out.println(coin.getTicker() + " may go up.");
+                            } else if (changeFactor == 0) {
+                                System.out.println(coin.getTicker() + " may go down.");
+                            } else {
+                                System.out.println(coin.getTicker() + " may go either way.");
+                            }
+                        }
+
+                        System.out.println("Attempts left: " + marketAnalystAttempts);
+                    }
+                } else {
+                    System.out.println("You decided not to consult the market analyst. Wise choice!");
+                }
             } else {
-                System.out.println("Not enough balance ($30000 required) ");
+                System.out.println("Not enough balance ($" + currentPrice + " required)");
             }
         } else {
             System.out.println("You have exceeded the maximum number of attempts to consult the market analyst.");
