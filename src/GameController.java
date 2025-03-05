@@ -177,7 +177,7 @@ public class GameController {
     }
 
 
-    private void predictNextMovement() {
+    public void predictNextMovement() {
 
         if (marketAnalystAttempts > 0) {
             int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000; // Price increases by 10000 per turn
