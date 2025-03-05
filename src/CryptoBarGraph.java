@@ -2,7 +2,10 @@ package src;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +64,7 @@ public class CryptoBarGraph {
 
                 if (barLength == 0 && price > 0) barLength = 1;
 
-                System.out.print("Day " + (i + 1) + ": ");
+                System.out.print("Turn " + (i + 1) + ": ");
                 for (int k = 0; k < barLength; k++) {
                     System.out.print("█");
                 }

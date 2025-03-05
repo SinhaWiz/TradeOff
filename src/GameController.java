@@ -27,6 +27,13 @@ public class GameController {
         this.turnsRemaining = MAX_TURNS;
         this.gameRandom = new Random();
         PriceHistoryLoader.init();
+
+        // Ensure price_history.txt exists
+        try {
+            new FileWriter("price_history.txt", true).close();
+        } catch (IOException e) {
+            System.out.println("Error creating price history file.");
+        }
     }
 
     public void displayStartMenu() {
@@ -61,6 +68,7 @@ public class GameController {
             if(turnUsed) {
                 market.simulateMarketMovement();
                 updatePositions();
+                savePriceHistory(); // Ensure this is called to log price history
                 saveGameState();
                 turnsRemaining--;
                 clearConsole();
@@ -69,6 +77,37 @@ public class GameController {
             }
         }
         displayFinalResults();
+    }
+
+
+    private void savePriceHistory() {
+        try (FileWriter writer = new FileWriter("price_history.txt", true)) {
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            writer.write("\n=== Game State at " + timestamp + " ===\n");
+            writer.write("Turns Remaining: " + turnsRemaining + "\n");
+            writer.write("Player Balance: $" + String.format("%.2f", player.getBalance()) + "\n");
+            writer.write("Current Positions:\n");
+
+            for (Trade trade : positions.getPositions()) {
+                writer.write(String.format("%s position: %.4f %s at $%.2f (P/L: $%.2f)\n",
+                        trade.getClass().getSimpleName(),
+                        trade.getQuantity(),
+                        trade.getCoin().getTicker(),
+                        trade.getEntryPrice(),
+                        trade.calcGainLoss()));
+            }
+
+            writer.write("Current Market Prices:\n");
+            for (Coin coin : market.getCoins()) {
+                writer.write(String.format("%s (%s): $%.2f\n",
+                        coin.getName(),
+                        coin.getTicker(),
+                        coin.getPrice()));
+            }
+            writer.write("------------------------\n");
+        } catch (IOException e) {
+            System.out.println("Error saving price history.");
+        }
     }
 
     public void displayWelcomeMessage() {
@@ -120,7 +159,7 @@ public class GameController {
                 predictNextMovement();
                 return false;
             case 9:
-                CryptoBarGraph.generateGraph("game_state.txt", 5);
+                CryptoBarGraph.generateGraph("price_history.txt", 5);
                 return false;
             case 10:
                 saveGame();
@@ -135,10 +174,11 @@ public class GameController {
                 System.out.println("Invalid choice! Please try again.");
                 return false;
         }
-
     }
 
-    public void predictNextMovement() {
+
+    private void predictNextMovement() {
+
         if (marketAnalystAttempts > 0) {
             int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000; // Price increases by 10000 per turn
             if (player.getBalance() >= currentPrice) {
