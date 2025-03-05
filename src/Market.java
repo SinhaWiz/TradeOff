@@ -21,6 +21,14 @@ public class Market implements Serializable {
         loadInitialPrices();
     }
 
+    public static double getSIGMA() {
+        return SIGMA;
+    }
+
+    public static void setSIGMA(double SIGMA) {
+        Market.SIGMA = SIGMA;
+    }
+
     private void loadInitialPrices() {
         try (BufferedReader reader = new BufferedReader(new FileReader(INITIAL_PRICES_FILE))) {
             String line;
