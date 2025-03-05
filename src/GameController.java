@@ -110,17 +110,17 @@ public class GameController {
 
     public void displayWelcomeMessage() {
         System.out.println("\n|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| Welcome to TradeOff |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|\n");
-        System.out.println("You are broke. Now you have taken $1 million from Loan Sharks.");
-        System.out.println("You have to pay them $5 million dollars within 10 days.");
+        System.out.println("You are broke and borrowed $1,000,000 from Loan Sharks.");
+        System.out.println("You have to pay them $5,000,000 within 10 days.");
         System.out.println("If you don't, the consequences will be beyond your imagination.");
-        System.out.println("Because of this short deadline, you have chosen using cryptocurrency to earn these money ASAP.\n");
+        System.out.println("Because of this short deadline, you have opted for cryptocurrency trading to earn this money ASAP.\n");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
     }
 
     public void displayMenu() {
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
         System.out.println("|+|+|+| 1.View Market         |+|+|+| 2.View Portfolio |+|+|+| 3.Close Position       |+|+|+| 4.Open Long Position             |+|+|+|");
-        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Black Market Analyst  (" + marketAnalystAttempts + "/3)  |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Black Market Analyst  (" + marketAnalystAttempts + "/3)    |+|+|+|");
         System.out.println("|+|+|+| 9.Statistics          |+|+|+| 10.Save Game     |+|+|+| 11.Load Game           |+|+|+| 12.Exit Game                     |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
@@ -193,7 +193,8 @@ public class GameController {
                 currentPrice = 150000 ;
             }// Price increases by 10000 per turn
             if (player.getBalance() >= currentPrice) {
-                System.out.println("WARNING: Consulting the black market analyst is a dangerous activity!");
+                System.out.println("WARNING: Consulting the black market analyst is a dangerous and costly activity!");
+                System.out.println("His consulting cost is $" + currentPrice);
                 System.out.println("If you get caught, you will be sent to jail and 20 turns will be skipped.");
                 System.out.println("Do you want to proceed? (y/n)");
                 Scanner scanner = new Scanner(System.in);
@@ -207,10 +208,7 @@ public class GameController {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
                         for (int i = 0; i < 20; i++) {
-                            turnsRemaining--;
-                            market.simulateMarketMovement();
-                            updatePositions();
-                            saveGameState();
+                            completeTurn();
                         }
 
                         System.out.println("You are now out of jail. Be careful next time!");
