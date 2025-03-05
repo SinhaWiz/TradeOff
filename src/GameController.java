@@ -71,7 +71,7 @@ public class GameController {
         displayFinalResults();
     }
 
-    private void displayWelcomeMessage() {
+    public void displayWelcomeMessage() {
         System.out.println("\n|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| Welcome to TradeOff |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|\n");
         System.out.println("You are broke. Now you have taken $1 million from Loan Sharks.");
         System.out.println("You have to pay them $5 million dollars within 10 days.");
@@ -80,7 +80,7 @@ public class GameController {
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
     }
 
-    private void displayMenu() {
+    public void displayMenu() {
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
         System.out.println("|+|+|+| 1.View Market         |+|+|+| 2.View Portfolio |+|+|+| 3.Close Position       |+|+|+| 4.Open Long Position             |+|+|+|");
         System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Market Analyst ($75000) (" + marketAnalystAttempts + "/3)  |+|+|+|");
@@ -172,7 +172,7 @@ public class GameController {
 
 
 
-    private void displayPositions() {
+    public void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();
         if (currentPositions.isEmpty()) {
             System.out.println("No positions open.");
@@ -202,7 +202,7 @@ public class GameController {
         }
     }
 
-    private boolean openLongPosition() {
+    public boolean openLongPosition() {
         System.out.println("\nAvailable coins:");
         tableGenerator.displayTable(market.getCoins());
 
@@ -371,15 +371,77 @@ public class GameController {
             System.out.println("Invalid position number!");
         }
     }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public PositionManager getPositions() {
+        return positions;
+    }
+
+    public void setPositions(PositionManager positions) {
+        this.positions = positions;
+    }
+
+    public SaveManager getSaveManager() {
+        return saveManager;
+    }
+
+    public void setSaveManager(SaveManager saveManager) {
+        this.saveManager = saveManager;
+    }
+
+    public MarketTableGenerator getTableGenerator() {
+        return tableGenerator;
+    }
+
+    public void setTableGenerator(MarketTableGenerator tableGenerator) {
+        this.tableGenerator = tableGenerator;
+    }
+
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public Random getGameRandom() {
+        return gameRandom;
+    }
+
+    public void setGameRandom(Random gameRandom) {
+        this.gameRandom = gameRandom;
+    }
+
+    public PriceHistoryLoader getPriceHistoryLoader() {
+        return priceHistoryLoader;
+    }
+
+    public void setPriceHistoryLoader(PriceHistoryLoader priceHistoryLoader) {
+        this.priceHistoryLoader = priceHistoryLoader;
+    }
+
+    public int getMarketAnalystAttempts() {
+        return marketAnalystAttempts;
+    }
+
+    public void setMarketAnalystAttempts(int marketAnalystAttempts) {
+        this.marketAnalystAttempts = marketAnalystAttempts;
+    }
+
     private void exitGame(){
         System.out.println("\nExiting game...................................");
         System.exit(0);
     }
-    private void skipTurn() {
+
+    public void skipTurn() {
         System.out.println("Turn skipped. Market will update and affect your current positions.");
     }
 
-    private void skipDay() {
+    public void skipDay() {
         if (turnsRemaining%16 == 0) {
             for (int  i = 0; i < 16; i++) {
                 turnsRemaining--;
@@ -399,7 +461,7 @@ public class GameController {
         System.out.println("Day skipped. Market will update and affect your current positions.");
     }
 
-    private void updatePositions() {
+    public void updatePositions() {
         List<Trade> listOfPositions = positions.getPositions();
         Iterator<Trade> positionsIterator = listOfPositions.iterator();
         while (positionsIterator.hasNext()) {
@@ -451,7 +513,7 @@ public class GameController {
         }
     }
 
-    private void randomPriceAlertEvent() {
+    public void randomPriceAlertEvent() {
         if (gameRandom.nextDouble() < 0.15 && turnsRemaining != 0) {
             priceAlertEvent();
         }
@@ -493,14 +555,14 @@ public class GameController {
         }
     }
 
-    private void randomVolatilityEvent() {
+    public void randomVolatilityEvent() {
         if (gameRandom.nextDouble() < 0.05 && turnsRemaining != 0) {
             market.incrementVolatility();
             System.out.println("MARKET ALERT: Due to recent developments, expect more volatility when trading.");
         }
     }
 
-    private void displayFinalResults() {
+    public void displayFinalResults() {
         double finalBalance = player.getBalance();
         System.out.println("\n=== Game Over ===");
         System.out.println("Final Balance: $" + String.format("%.2f", finalBalance));
@@ -531,7 +593,7 @@ public class GameController {
         }
     }
 
-    private void clearConsole(){
+    public void clearConsole(){
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
