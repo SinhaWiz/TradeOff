@@ -599,6 +599,7 @@ public class GameController {
             System.out.println("Error loading the game: " + e.getMessage());
             e.printStackTrace();
         }
+
     }
 
     public int getTurnsRemaining() {
@@ -615,5 +616,9 @@ public class GameController {
 
     public void setMarket(Market market) {
         this.market = market;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }
