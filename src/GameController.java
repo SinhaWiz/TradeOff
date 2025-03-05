@@ -71,7 +71,7 @@ public class GameController {
         displayFinalResults();
     }
 
-    private void displayWelcomeMessage() {
+    public void displayWelcomeMessage() {
         System.out.println("\n|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| Welcome to TradeOff |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|\n");
         System.out.println("You are broke. Now you have taken $1 million from Loan Sharks.");
         System.out.println("You have to pay them $5 million dollars within 10 days.");
@@ -493,14 +493,14 @@ public class GameController {
         }
     }
 
-    private void randomVolatilityEvent() {
+    public void randomVolatilityEvent() {
         if (gameRandom.nextDouble() < 0.05 && turnsRemaining != 0) {
             market.incrementVolatility();
             System.out.println("MARKET ALERT: Due to recent developments, expect more volatility when trading.");
         }
     }
 
-    private void displayFinalResults() {
+    public void displayFinalResults() {
         double finalBalance = player.getBalance();
         System.out.println("\n=== Game Over ===");
         System.out.println("Final Balance: $" + String.format("%.2f", finalBalance));
