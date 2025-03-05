@@ -177,10 +177,18 @@ public class GameController {
     }
 
 
-    private void predictNextMovement() {
+    public void predictNextMovement() {
 
         if (marketAnalystAttempts > 0) {
-            int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000; // Price increases by 10000 per turn
+            int currentPrice = 30000;
+            if(marketAnalystAttempts == 3) {
+//                int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000;
+                currentPrice = currentPrice ;
+            } else if (marketAnalystAttempts == 2) {
+                currentPrice = 60000;
+            } else if(marketAnalystAttempts == 1) {
+                currentPrice = 90000 ;
+            }// Price increases by 10000 per turn
             if (player.getBalance() >= currentPrice) {
                 System.out.println("WARNING: Consulting the black market analyst is a dangerous activity!");
                 System.out.println("If you get caught, you will be sent to jail and 20 turns will be skipped.");
@@ -192,7 +200,7 @@ public class GameController {
                     player.deductBalance(currentPrice);
                     marketAnalystAttempts--;
 
-                    if (gameRandom.nextDouble() < 0.5) {
+                    if (gameRandom.nextDouble() < 0.4) {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
                         for (int i = 0; i < 20; i++) {

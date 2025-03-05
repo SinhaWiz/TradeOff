@@ -76,7 +76,7 @@ public class Market implements Serializable {
         }
     }
 
-    private double calculateChangeFactor(Coin coin) {
+    public double calculateChangeFactor(Coin coin) {
         double epsilon = random.nextGaussian();
         double changeFactor = 0;
 
