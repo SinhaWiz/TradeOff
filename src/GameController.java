@@ -46,9 +46,11 @@ public class GameController {
         int choice = scanner.nextInt();
         switch(choice) {
             case 1:
+                clearConsole();
                 startGame();
                 break;
             case 2:
+                clearConsole();
                 loadGameStartMenu();
                 break;
             case 3:
@@ -66,11 +68,7 @@ public class GameController {
             displayMenu();
             boolean turnUsed = handleAction();
             if(turnUsed) {
-                market.simulateMarketMovement();
-                updatePositions();
-                savePriceHistory(); // Ensure this is called to log price history
-                saveGameState();
-                turnsRemaining--;
+                completeTurn();
                 clearConsole();
                 randomPriceAlertEvent();
                 randomVolatilityEvent();
@@ -149,22 +147,27 @@ public class GameController {
             case 5:
                 return openShortPosition();
             case 6:
-                skipTurn();
-                return true;
-            case 7:
-                skipDay();
                 clearConsole();
+                skipTurn();
+                return false;
+            case 7:
+                clearConsole();
+                skipDay();
                 return false;
             case 8:
+                clearConsole();
                 predictNextMovement();
                 return false;
             case 9:
+                clearConsole();
                 CryptoBarGraph.generateGraph("price_history.txt", 5);
                 return false;
             case 10:
+                clearConsole();
                 saveGame();
                 return false;
             case 11:
+                clearConsole();
                 loadGameMidGame();
                 return false;
             case 12:
@@ -180,14 +183,14 @@ public class GameController {
     public void predictNextMovement() {
 
         if (marketAnalystAttempts > 0) {
-            int currentPrice = 30000;
+            int currentPrice = 75000;
             if(marketAnalystAttempts == 3) {
 //                int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000;
                 currentPrice = currentPrice ;
             } else if (marketAnalystAttempts == 2) {
-                currentPrice = 60000;
+                currentPrice = 100000;
             } else if(marketAnalystAttempts == 1) {
-                currentPrice = 90000 ;
+                currentPrice = 150000 ;
             }// Price increases by 10000 per turn
             if (player.getBalance() >= currentPrice) {
                 System.out.println("WARNING: Consulting the black market analyst is a dangerous activity!");
@@ -510,25 +513,28 @@ public class GameController {
         System.exit(0);
     }
 
+    private void completeTurn() {
+        turnsRemaining--;
+        market.simulateMarketMovement();
+        updatePositions();
+        savePriceHistory(); // Ensure this is called to log price history
+        saveGameState();
+    }
+
     public void skipTurn() {
+        completeTurn();
         System.out.println("Turn skipped. Market will update and affect your current positions.");
     }
 
     public void skipDay() {
         if (turnsRemaining%16 == 0) {
             for (int  i = 0; i < 16; i++) {
-                turnsRemaining--;
-                market.simulateMarketMovement();
-                updatePositions();
-                saveGameState();
+                completeTurn();
             }
         } else {
           int turnsToSkip = turnsRemaining%16;
             for (int  i = 0; i < turnsToSkip; i++) {
-                turnsRemaining--;
-                market.simulateMarketMovement();
-                updatePositions();
-                saveGameState();
+                completeTurn();
             }
         }
         System.out.println("Day skipped. Market will update and affect your current positions.");
