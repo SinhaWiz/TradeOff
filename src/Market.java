@@ -56,7 +56,7 @@ public class Market implements Serializable {
     private void setTrends() {
         for (Coin coin : coins) {
             if (!coin.isPossibleNegativeTrend() && !coin.isPossiblePositiveTrend()) {
-                if (random.nextDouble() < 0.2) {
+                if (random.nextDouble() < 0.6) {
                     if (random.nextBoolean()) {
                         coin.setPossiblePositiveTrend(true);
                     } else {
@@ -69,7 +69,7 @@ public class Market implements Serializable {
 
     private void removeTrends() {
         for (Coin coin : coins) {
-            if (random.nextDouble() < 0.2) {
+            if (random.nextDouble() < 0.4) {
                 coin.setPossiblePositiveTrend(false);
                 coin.setPossibleNegativeTrend(false);
             }
@@ -81,12 +81,12 @@ public class Market implements Serializable {
         double changeFactor = 0;
 
         if (coin.isPossiblePositiveTrend()) {
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 50000; i++) {
                 changeFactor = Math.exp((BASE_MU - 0.5 * SIGMA * SIGMA) * DT + SIGMA * epsilon * Math.sqrt(DT));
                 if (changeFactor >= 1) break;
             }
         } else if (coin.isPossibleNegativeTrend()) {
-            for (int i = 0; i < 50; i++) {
+            for (int i = 0; i < 50000; i++) {
                 changeFactor = Math.exp((BASE_MU - 0.5 * SIGMA * SIGMA) * DT + SIGMA * epsilon * Math.sqrt(DT));
                 if (changeFactor < 1) break;
             }
@@ -97,7 +97,7 @@ public class Market implements Serializable {
         return changeFactor;
     }
 
-    public void simulateMarketMovement(){
+    public void simulateMarketMovement() {
         setTrends();
         for (Coin coin : coins) {
             double changeFactor = calculateChangeFactor(coin);
@@ -111,39 +111,6 @@ public class Market implements Serializable {
     public void incrementVolatility() {
         SIGMA = SIGMA + 0.05;
     }
-
-//    public void simulateMarketMovement() {
-//        for (Coin coin : coins) {
-//            // More realistic market movement simulation
-//            double volatility = getVolatility(coin);
-//            double change = (random.nextGaussian() * volatility);
-//            double newPrice = coin.getPrice() * (1 + change);
-//            // Ensure price doesn't go below 0
-//            newPrice = Math.max(0.01, newPrice);
-//            coin.updatePrice(newPrice);
-//        }
-//        savePriceHistory();
-//    }
-//
-//    private double getVolatility(Coin coin) {
-//        // Different coins have different volatility levels
-//        switch (coin.getTicker()) {
-//            case "BTC":
-//                return 0.05; // 5% volatility
-//            case "ETH":
-//                return 0.07;
-//            case "BNB":
-//                return 0.08;
-//            case "ADA":
-//                return 0.10;
-//            case "SOL":
-//                return 0.12;
-//            case "DOGE":
-//                return 0.15; // Highest volatility
-//            default:
-//                return 0.10;
-//        }
-//    }
 
     private void savePriceHistory() {
         try (FileWriter writer = new FileWriter(PRICE_HISTORY_FILE, true)) {
@@ -172,8 +139,6 @@ public class Market implements Serializable {
 
         for (Coin coin : coins) {
             int changeFactorFlag;
-
-            // Check if coin has a possible positive or negative trend
             if (coin.isPossiblePositiveTrend()) {
                 changeFactorFlag = 1;  // Positive trend
             } else if (coin.isPossibleNegativeTrend()) {
@@ -182,25 +147,11 @@ public class Market implements Serializable {
                 changeFactorFlag = -1;  // No clear trend
             }
 
-            // Add the coin and its prediction to the map
+
             predictions.put(coin, changeFactorFlag);
         }
 
         return predictions;
     }
-
-    /*
-    public Map<Coin, Double> predictNextMovements() {
-        Map<Coin, Double> predictions = new HashMap<>();
-
-        for (Coin coin : coins) {
-            double volatility = getVolatility(coin);
-            double change = (random.nextGaussian() * volatility); 
-            predictions.put(coin, change);
-        }
-
-        return predictions;
-    }
-*/
 
 }
