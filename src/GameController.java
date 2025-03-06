@@ -204,7 +204,7 @@ public class GameController {
                     player.deductBalance(currentPrice);
                     marketAnalystAttempts--;
 
-                    if (gameRandom.nextDouble() < 0.4) {
+                    if (gameRandom.nextDouble() < 0.33) {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
                         System.out.println("Or You Can Bribe the officers to stay out of jail by paying : $"+currentPrice*2);
@@ -220,14 +220,11 @@ public class GameController {
                         }
                         System.out.println("You are now out of jail. Be careful next time!");
                     } else {
-
                         Map<Coin, Integer> predictions = market.predictNextMovements();
-
                         System.out.println("Analyst's Report:");
                         for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                             Coin coin = entry.getKey();
                             int changeFactor = entry.getValue();
-
                             if (changeFactor == 1) {
                                 System.out.println(coin.getTicker() + " may go up.");
                             } else if (changeFactor == 0) {
@@ -236,7 +233,6 @@ public class GameController {
                                 System.out.println(coin.getTicker() + " may go either way.");
                             }
                         }
-
                         System.out.println("Attempts left: " + marketAnalystAttempts);
                     }
                 } else {
