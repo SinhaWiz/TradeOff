@@ -207,10 +207,17 @@ public class GameController {
                     if (gameRandom.nextDouble() < 0.4) {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
-                        for (int i = 0; i < 20; i++) {
-                            completeTurn();
-                        }
+                        System.out.println("Or You Can Bribe the officers to stay out of jail by paying : $"+currentPrice*2);
+                        System.out.println(" Press 0 to bribe , Press 1 to go to jail");
 
+                        int decision2StayOut = scanner.nextInt();
+                        if(decision2StayOut == 1) {
+                            for (int i = 0; i < 20; i++) {
+                                completeTurn();
+                            }
+                        }else  if(decision2StayOut == 0) {
+                            player.deductBalance(currentPrice*2);
+                        }
                         System.out.println("You are now out of jail. Be careful next time!");
                     } else {
 
