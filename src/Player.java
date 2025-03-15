@@ -1,11 +1,7 @@
 package src;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 public class Player implements Serializable {
     private static final long serialVersionUID = 1L;  //
