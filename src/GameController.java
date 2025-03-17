@@ -146,8 +146,10 @@ public class GameController {
                 closePosition();
                 return false;
             case 4:
+                clearConsole();
                 return openLongPosition();
             case 5:
+                clearConsole();
                 return openShortPosition();
             case 6:
                 clearConsole();
