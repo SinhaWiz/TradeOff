@@ -15,7 +15,7 @@ public class MarketTableGenerator {
 
         System.out.println("\n=== Current Market Prices ===");
         System.out.println();
-        System.out.println("|______________________________________________________|");
+        System.out.println("________________________________________________________");
         System.out.println(String.format("%-15s %-10s %-15s %-10s", "|    Coin", "|   Ticker  |", "   Price    |", "Change   |"));
         System.out.println("|______________________________________________________|");
 
@@ -40,7 +40,7 @@ public class MarketTableGenerator {
                 }
             }
             
-            System.out.printf("|%-15s|     %-6s| $%-11.2f| %-10s" + "     | " + "\n",
+            System.out.printf("|%-14s |    %-6s |  $%-10.2f| %-8s" + "     | " + "\n",
                     coin.getName(),
                     ticker,
                     price,
