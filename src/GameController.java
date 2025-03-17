@@ -448,66 +448,6 @@ public class GameController {
         }
     }
 
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public PositionManager getPositions() {
-        return positions;
-    }
-
-    public void setPositions(PositionManager positions) {
-        this.positions = positions;
-    }
-
-    public SaveManager getSaveManager() {
-        return saveManager;
-    }
-
-    public void setSaveManager(SaveManager saveManager) {
-        this.saveManager = saveManager;
-    }
-
-    public MarketTableGenerator getTableGenerator() {
-        return tableGenerator;
-    }
-
-    public void setTableGenerator(MarketTableGenerator tableGenerator) {
-        this.tableGenerator = tableGenerator;
-    }
-
-    public Scanner getScanner() {
-        return scanner;
-    }
-
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
-    }
-
-    public Random getGameRandom() {
-        return gameRandom;
-    }
-
-    public void setGameRandom(Random gameRandom) {
-        this.gameRandom = gameRandom;
-    }
-
-    public PriceHistoryLoader getPriceHistoryLoader() {
-        return priceHistoryLoader;
-    }
-
-    public void setPriceHistoryLoader(PriceHistoryLoader priceHistoryLoader) {
-        this.priceHistoryLoader = priceHistoryLoader;
-    }
-
-    public int getMarketAnalystAttempts() {
-        return marketAnalystAttempts;
-    }
-
-    public void setMarketAnalystAttempts(int marketAnalystAttempts) {
-        this.marketAnalystAttempts = marketAnalystAttempts;
-    }
-
     private void exitGame(){
         System.out.println("\nExiting game...................................");
         System.exit(0);
