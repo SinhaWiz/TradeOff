@@ -30,7 +30,7 @@ public class MarketTableGenerator {
                 double change = ((price - prevPrice) / prevPrice) * 100;
 
 
-
+  //ahgefgagf
                 //
                 // Format with color and sign
                 if (change >= 0) {
