@@ -7,7 +7,7 @@ public class MarketTableGenerator {
     private Map<String, Double> previousPrices = new HashMap<>();
 
     public void displayTable(List<Coin> coins) {
-        displayTable(coins, true);
+        displayTable(coins, false);
     }
     
     public void displayTable(List<Coin> coins, boolean updatePreviousPrices) {

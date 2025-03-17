@@ -25,3 +25,46 @@ Solana (SOL): $100.29
 Ripple (XRP): $0.60
 Cardano (ADA): $1.50
 ------------------------
+
+=== Game State at 2025-03-17 23:13:39 ===
+Turns Remaining: 159
+Player Balance: $900000.00
+Current Positions:
+LongTrade position: 2.0000 BTC at $50000.00 (P/L: $-19729.17)
+Current Market Prices:
+Bitcoin (BTC): $48027.08
+Ethereum (ETH): $3091.93
+Binance Coin (BNB): $389.79
+Solana (SOL): $97.60
+Ripple (XRP): $0.70
+Cardano (ADA): $1.53
+------------------------
+
+=== Game State at 2025-03-17 23:13:53 ===
+Turns Remaining: 158
+Player Balance: $851972.92
+Current Positions:
+LongTrade position: 2.0000 BTC at $50000.00 (P/L: $-15816.88)
+LongTrade position: 1.0000 BTC at $48027.08 (P/L: $782.46)
+Current Market Prices:
+Bitcoin (BTC): $48418.31
+Ethereum (ETH): $3246.19
+Binance Coin (BNB): $391.43
+Solana (SOL): $97.70
+Ripple (XRP): $0.67
+Cardano (ADA): $1.52
+------------------------
+
+=== Game State at 2025-03-17 23:18:02 ===
+Turns Remaining: 159
+Player Balance: $900000.00
+Current Positions:
+LongTrade position: 2.0000 BTC at $50000.00 (P/L: $19727.65)
+Current Market Prices:
+Bitcoin (BTC): $51972.77
+Ethereum (ETH): $2880.89
+Binance Coin (BNB): $387.00
+Solana (SOL): $112.55
+Ripple (XRP): $0.66
+Cardano (ADA): $1.47
+------------------------
