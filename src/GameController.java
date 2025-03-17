@@ -23,6 +23,7 @@ public class GameController {
         this.positions = new PositionManager();
         this.saveManager = new SaveManager();
         this.tableGenerator = new MarketTableGenerator();
+        this.tableGenerator.loadPreviousPrices(); // Load previous prices for percentage change calculation
         this.scanner = new Scanner(System.in);
         this.turnsRemaining = MAX_TURNS;
         this.gameRandom = new Random();
@@ -205,7 +206,7 @@ public class GameController {
                     player.deductBalance(currentPrice);
                     marketAnalystAttempts--;
 
-                    if (gameRandom.nextDouble() < 0.33) {
+                    if (gameRandom.nextDouble() < 0.1) {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
                         System.out.println("Or You Can Bribe the officers to stay out of jail by paying : $"+currentPrice*2);
