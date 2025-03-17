@@ -28,7 +28,10 @@ public class MarketTableGenerator {
             if (previousPrices.containsKey(ticker)) {
                 double prevPrice = previousPrices.get(ticker);
                 double change = ((price - prevPrice) / prevPrice) * 100;
-                
+
+
+
+                //
                 // Format with color and sign
                 if (change >= 0) {
                     percentChange = String.format("\u001B[32m+%.2f%%\u001B[0m", change); // Green for positive
