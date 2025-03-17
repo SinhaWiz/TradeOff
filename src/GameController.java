@@ -43,22 +43,24 @@ public class GameController {
         System.out.println("3. Exit");
 
         System.out.print("Enter your choice: ");
-        int choice = scanner.nextInt();
-        switch(choice) {
-            case 1:
-                clearConsole();
-                startGame();
-                break;
-            case 2:
-                clearConsole();
-                loadGameStartMenu();
-                break;
-            case 3:
-                exitGame();
-                break;
-            default:
-                System.out.println("Invalid option.");
-                choice = scanner.nextInt();
+        while (true) {
+            int choice = scanner.nextInt();
+            switch (choice) {
+                case 1:
+                    clearConsole();
+                    startGame();
+                    break;
+                case 2:
+                    clearConsole();
+                    loadGameStartMenu();
+                    break;
+                case 3:
+                    exitGame();
+                    break;
+                default:
+                    System.out.println("Invalid option. Please enter again.");
+                    System.out.print("Enter your choice: ");
+            }
         }
     }
 
@@ -185,13 +187,12 @@ public class GameController {
         if (marketAnalystAttempts > 0) {
             int currentPrice = 75000;
             if(marketAnalystAttempts == 3) {
-//                int currentPrice = 30000 + (MAX_TURNS - turnsRemaining) * 10000;
                 currentPrice = currentPrice ;
             } else if (marketAnalystAttempts == 2) {
                 currentPrice = 100000;
             } else if(marketAnalystAttempts == 1) {
                 currentPrice = 150000 ;
-            }// Price increases by 10000 per turn
+            }
             if (player.getBalance() >= currentPrice) {
                 System.out.println("WARNING: Consulting the black market analyst is a dangerous and costly activity!");
                 System.out.println("His consulting cost is $" + currentPrice);
@@ -211,11 +212,11 @@ public class GameController {
                         System.out.println(" Press 0 to bribe , Press 1 to go to jail");
 
                         int decision2StayOut = scanner.nextInt();
-                        if(decision2StayOut == 1) {
+                        if (decision2StayOut == 1) {
                             for (int i = 0; i < 20; i++) {
                                 completeTurn();
                             }
-                        }else  if(decision2StayOut == 0) {
+                        } else if(decision2StayOut == 0) {
                             player.deductBalance(currentPrice*2);
                         }
                         System.out.println("You are now out of jail. Be careful next time!");
@@ -315,7 +316,6 @@ public class GameController {
                     break;
                 default:
                     System.out.println("Invalid choice! Select Again.");
-                    leverageOption = scanner.nextInt();
             }
 
             System.out.print("Enter quantity: ");
@@ -380,7 +380,6 @@ public class GameController {
                     break;
                 default:
                     System.out.println("Invalid choice! Select Again.");
-                    leverageOption = scanner.nextInt();
             }
 
             System.out.print("Enter quantity: ");
