@@ -4,5 +4,4 @@ public class Main {
         GameController gameController = new GameController();
         gameController.displayStartMenu();
     }
-    // Jhamela hoise
 }
