@@ -7,6 +7,10 @@ public class MarketTableGenerator {
     private Map<String, Double> previousPrices = new HashMap<>();
 
     public void displayTable(List<Coin> coins) {
+        displayTable(coins, true);
+    }
+    
+    public void displayTable(List<Coin> coins, boolean updatePreviousPrices) {
         // Get current prices
         Map<String, Double> currentPrices = new HashMap<>();
         for (Coin coin : coins) {
@@ -48,8 +52,10 @@ public class MarketTableGenerator {
         }
         System.out.println("|______________________________________________________|");
         
-        // Store current prices as previous prices for next turn
-        previousPrices = currentPrices;
+        // Store current prices as previous prices for next turn only if updatePreviousPrices is true
+        if (updatePreviousPrices) {
+            previousPrices = currentPrices;
+        }
     }
 
     private Map<String, Double> getCurrentPrices() {
@@ -162,5 +168,17 @@ public class MarketTableGenerator {
             // If there's an error or no previous prices, we'll just use empty map
             // which will result in 0.00% change for the first turn
         }
+    }
+
+    public Map<String, Double> getPreviousPrices() {
+        return previousPrices;
+    }
+
+    public void updatePreviousPrices(List<Coin> coins) {
+        Map<String, Double> currentPrices = new HashMap<>();
+        for (Coin coin : coins) {
+            currentPrices.put(coin.getTicker(), coin.getPrice());
+        }
+        previousPrices = currentPrices;
     }
 }
