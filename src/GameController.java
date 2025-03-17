@@ -113,7 +113,7 @@ public class GameController {
     public void displayWelcomeMessage() {
         System.out.println("\n|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$| Welcome to TradeOff |$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|$|\n");
         System.out.println("You are broke and borrowed $1,000,000 from Loan Sharks.");
-        System.out.println("You have to pay them $5,000,000 within 10 days.");
+        System.out.println("You have to pay them $3,000,000 within 10 days.");
         System.out.println("If you don't, the consequences will be beyond your imagination.");
         System.out.println("Because of this short deadline, you have opted for cryptocurrency trading to earn this money ASAP.\n");
         System.out.println("You have " + MAX_TURNS + " turns to make your fortune.");
@@ -599,7 +599,7 @@ public class GameController {
             writer.write("Final Balance: $" + String.format("%.2f", finalBalance) + "\n");
             writer.write("Initial Balance: $1,000,000.00\n");
             writer.write("Profit/Loss: $" + String.format("%.2f", finalBalance - 1000000) + "\n");
-            writer.write("Goal Achieved: " + (finalBalance >= 5000000 ? "Yes" : "No") + "\n");
+            writer.write("Goal Achieved: " + (finalBalance >= 3000000 ? "Yes" : "No") + "\n");
             writer.write("\nFinal Portfolio:\n");
             for (Map.Entry<Coin, Double> entry : player.getPortfolio().entrySet()) {
                 writer.write(String.format("%s: %.4f (Value: $%.2f)\n",
