@@ -694,15 +694,17 @@ public class GameController {
             positions.setPositions(positionsLoaded);
             setTurnsRemaining(savedTurns);
             market.setCoins(coinsLoaded);
-            marketAnalystAttempts=in.readInt();
+            marketAnalystAttempts = in.readInt();
             System.out.println("Game loaded successfully!");
             startGame();
+        } catch (FileNotFoundException e) {
+            System.out.println("No saved game found. Please start a new game.");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading the game: " + e.getMessage());
             e.printStackTrace();
         }
-
     }
+
 
     public int getTurnsRemaining() {
         return turnsRemaining;
