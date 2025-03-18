@@ -614,12 +614,12 @@ public class GameController {
             System.out.println("You walk away with your head held high, knowing you've beaten the odds and secured your future.");
             System.out.println("But remember... the crypto world is unpredictable. Will you stay in the game, or cash out and live the good life?");
             System.out.println("The choice is yours.");
-        } else if (finalBalance >= 1000000) {
-            System.out.println("\n=== Close Call! ===");
-            System.out.println("You managed to pay off the loan sharks, but just barely.");
-            System.out.println("They let you go with a warning: 'Don't mess with us again.'");
-            System.out.println("You breathe a sigh of relief, knowing you survived... but at what cost?");
-            System.out.println("The experience has left you shaken, but wiser. Maybe it's time to step away from the crypto world for a while.");
+        } else if (finalBalance >= 1000000 && finalBalance < 3000000) {
+            System.out.println("Sure, you've managed to break even and perhaps made some more money on the side.");
+            System.out.println("But did you take a good look at your balance again?");
+            System.out.println("Thought so, that definitely doesn't say 3 million...");
+            System.out.println("If you get lucky, maybe they'll let you off the hook...");
+            System.out.println("If...");
         } else {
             System.out.println("\n=== Game Over! ===");
             System.out.println("The loan sharks have come to collect their dues... and you don't have enough.");
