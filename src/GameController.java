@@ -130,58 +130,67 @@ public class GameController {
 
     private boolean handleAction() {
         System.out.print("Enter your choice: ");
-        int choice = scanner.nextInt();
+        try {
 
-        switch (choice) {
-            case 1:
-                clearConsole();
-                tableGenerator.displayTable(market.getCoins());
-                return false;
-            case 2:
-                clearConsole();
-                displayPositions();
-                return false;
-            case 3:
-                clearConsole();
-                closePosition();
-                return false;
-            case 4:
-                clearConsole();
-                return openLongPosition();
-            case 5:
-                clearConsole();
-                return openShortPosition();
-            case 6:
-                clearConsole();
-                skipTurn();
-                return false;
-            case 7:
-                clearConsole();
-                skipDay();
-                return false;
-            case 8:
-                clearConsole();
-                predictNextMovement();
-                return false;
-            case 9:
-                clearConsole();
-                CryptoBarGraph.generateGraph("price_history.txt", 5);
-                return false;
-            case 10:
-                clearConsole();
-                saveGame();
-                return false;
-            case 11:
-                clearConsole();
-                loadGameMidGame();
-                return false;
-            case 12:
-                exitGame();
-                return false;
-            default:
-                System.out.println("Invalid choice! Please try again.");
-                return false;
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    clearConsole();
+                    tableGenerator.displayTable(market.getCoins());
+                    return false;
+                case 2:
+                    clearConsole();
+                    displayPositions();
+                    return false;
+                case 3:
+                    clearConsole();
+                    closePosition();
+                    return false;
+                case 4:
+                    clearConsole();
+                    return openLongPosition();
+                case 5:
+                    clearConsole();
+                    return openShortPosition();
+                case 6:
+                    clearConsole();
+                    skipTurn();
+                    return false;
+                case 7:
+                    clearConsole();
+                    skipDay();
+                    return false;
+                case 8:
+                    clearConsole();
+                    predictNextMovement();
+                    return false;
+                case 9:
+                    clearConsole();
+                    CryptoBarGraph.generateGraph("price_history.txt", 5);
+                    return false;
+                case 10:
+                    clearConsole();
+                    saveGame();
+                    return false;
+                case 11:
+                    clearConsole();
+                    loadGameMidGame();
+                    return false;
+                case 12:
+                    exitGame();
+                    return false;
+                default:
+                    System.out.println("Invalid choice! Please try again.");
+                    return false;
+            }
         }
+        catch (InputMismatchException e)
+        {
+            System.out.println("Invalid keyword");
+            scanner.nextLine();
+        }
+        return false;
     }
 
 
