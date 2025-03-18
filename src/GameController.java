@@ -614,7 +614,7 @@ public class GameController {
             System.out.println("You walk away with your head held high, knowing you've beaten the odds and secured your future.");
             System.out.println("But remember... the crypto world is unpredictable. Will you stay in the game, or cash out and live the good life?");
             System.out.println("The choice is yours.");
-        } else if (finalBalance >= 1000000 && finalBalance < 3000000) {
+        } else if (finalBalance >= 1000000) {
             System.out.println("Sure, you've managed to break even and perhaps made some more money on the side.");
             System.out.println("But did you take a good look at your balance again?");
             System.out.println("Thought so, that definitely doesn't say 3 million...");
