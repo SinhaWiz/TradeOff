@@ -203,12 +203,12 @@ public class GameController {
         if (marketInsiderAttempts > 0) {
             int currentPrice = 75000;
 
-            if(marketInsiderAttempts == 3) {
-                currentPrice = currentPrice ;
+            if (marketInsiderAttempts == 3) {
+                currentPrice = 75000;
             } else if (marketInsiderAttempts == 2) {
                 currentPrice = 100000;
-            } else if(marketInsiderAttempts == 1) {
-                currentPrice = 150000 ;
+            } else if (marketInsiderAttempts == 1) {
+                currentPrice = 150000;
             }
 
             if (player.getBalance() >= currentPrice) {
@@ -223,10 +223,27 @@ public class GameController {
                     player.deductBalance(currentPrice);
                     marketInsiderAttempts--;
 
-                    if (gameRandom.nextDouble() < 0.2) {
+                    if (marketInsiderAttempts == 2) {
+
+                        Map<Coin, Integer> predictions = market.predictNextMovements();
+                        System.out.println("Insider's Report:");
+                        for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
+                            Coin coin = entry.getKey();
+                            int changeFactor = entry.getValue();
+                            if (changeFactor == 1) {
+                                System.out.println(coin.getTicker() + " may go up.");
+                            } else if (changeFactor == 0) {
+                                System.out.println(coin.getTicker() + " may go down.");
+                            } else {
+                                System.out.println(coin.getTicker() + " may go either way.");
+                            }
+                        }
+                        System.out.println("Attempts left: " + marketInsiderAttempts);
+                    } else if (marketInsiderAttempts == 1) {
+
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
-                        System.out.println("Or you can pay your bail : $"+currentPrice*2);
+                        System.out.println("Or you can pay your bail: $" + currentPrice * 2);
                         System.out.println("Press 0 to pay bail, Press 1 to go to jail");
 
                         int decision2StayOut = scanner.nextInt();
@@ -234,16 +251,21 @@ public class GameController {
                             for (int i = 0; i < 20; i++) {
                                 completeTurn();
                             }
-                        } else if(decision2StayOut == 0) {
-                            player.deductBalance(currentPrice*2);
+                        } else if (decision2StayOut == 0) {
+                            player.deductBalance(currentPrice * 2);
                         }
                         System.out.println("You are now out of jail. Be careful next time!");
-                    } else {
+                    } else if (marketInsiderAttempts == 0) {
+                        // Third attempt: Get random predictions (accurate or misleading)
+                        System.out.println("The insider seems unsure this time...");
                         Map<Coin, Integer> predictions = market.predictNextMovements();
-                        System.out.println("Insider's Report:");
                         for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                             Coin coin = entry.getKey();
                             int changeFactor = entry.getValue();
+
+                            if (gameRandom.nextBoolean()) {
+                                changeFactor = (changeFactor == 1) ? 0 : 1;
+                            }
                             if (changeFactor == 1) {
                                 System.out.println(coin.getTicker() + " may go up.");
                             } else if (changeFactor == 0) {
