@@ -15,7 +15,7 @@ public class GameController {
     private static final String SAVE_FILE = "game_save.dat";
     private Random gameRandom;
     private PriceHistoryLoader priceHistoryLoader;
-    private int marketAnalystAttempts = 3;
+    private int marketInsiderAttempts = 3;
 
     public GameController() {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
@@ -128,7 +128,7 @@ public class GameController {
     public void displayMenu() {
         System.out.println("\n     |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| MENU |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$| |$|$|$|$|");
         System.out.println("|+|+|+| 1.View Market         |+|+|+| 2.View Portfolio |+|+|+| 3.Close Position       |+|+|+| 4.Open Long Position             |+|+|+|");
-        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Black Market Analyst  (" + marketAnalystAttempts + "/3)    |+|+|+|");
+        System.out.println("|+|+|+| 5.Open Short Position |+|+|+| 6.Skip Turn      |+|+|+| 7.Skip a Day           |+|+|+| 8.Consult Market Insider  (" + marketInsiderAttempts + "/3)  |+|+|+|");
         System.out.println("|+|+|+| 9.Statistics          |+|+|+| 10.Save Game     |+|+|+| 11.Load Game           |+|+|+| 12.Exit Game                     |+|+|+|");
         System.out.println("\nBalance: $" + String.format("%.2f", player.getBalance()));
     }
@@ -200,35 +200,34 @@ public class GameController {
 
 
     public void predictNextMovement() {
-
-        if (marketAnalystAttempts > 0) {
+        if (marketInsiderAttempts > 0) {
             int currentPrice = 75000;
 
-            if(marketAnalystAttempts == 3) {
+            if(marketInsiderAttempts == 3) {
                 currentPrice = currentPrice ;
-            } else if (marketAnalystAttempts == 2) {
+            } else if (marketInsiderAttempts == 2) {
                 currentPrice = 100000;
-            } else if(marketAnalystAttempts == 1) {
+            } else if(marketInsiderAttempts == 1) {
                 currentPrice = 150000 ;
             }
 
             if (player.getBalance() >= currentPrice) {
-                System.out.println("WARNING: Consulting the black market analyst is a dangerous and costly activity!");
+                System.out.println("WARNING: Consulting the market insider is a dangerous and costly activity!");
                 System.out.println("His consulting cost is $" + currentPrice);
                 System.out.println("If you get caught, you will be sent to jail and 20 turns will be skipped.");
-                System.out.println("Do you want to proceed? (y/n)");
+                System.out.println("Do you wish to proceed? (y/n)");
                 Scanner scanner = new Scanner(System.in);
                 String decision = scanner.next().toLowerCase();
 
                 if (decision.equals("y")) {
                     player.deductBalance(currentPrice);
-                    marketAnalystAttempts--;
+                    marketInsiderAttempts--;
 
-                    if (gameRandom.nextDouble() < 0.1) {
+                    if (gameRandom.nextDouble() < 0.2) {
                         System.out.println("Oh no! You have been caught by the authorities!");
                         System.out.println("You will be in jail for 20 turns. The market will continue to move during this time.");
-                        System.out.println("Or You Can Bribe the officers to stay out of jail by paying : $"+currentPrice*2);
-                        System.out.println(" Press 0 to bribe , Press 1 to go to jail");
+                        System.out.println("Or you can pay your bail : $"+currentPrice*2);
+                        System.out.println("Press 0 to pay bail, Press 1 to go to jail");
 
                         int decision2StayOut = scanner.nextInt();
                         if (decision2StayOut == 1) {
@@ -241,7 +240,7 @@ public class GameController {
                         System.out.println("You are now out of jail. Be careful next time!");
                     } else {
                         Map<Coin, Integer> predictions = market.predictNextMovements();
-                        System.out.println("Analyst's Report:");
+                        System.out.println("Insider's Report:");
                         for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                             Coin coin = entry.getKey();
                             int changeFactor = entry.getValue();
@@ -253,16 +252,16 @@ public class GameController {
                                 System.out.println(coin.getTicker() + " may go either way.");
                             }
                         }
-                        System.out.println("Attempts left: " + marketAnalystAttempts);
+                        System.out.println("Attempts left: " + marketInsiderAttempts);
                     }
                 } else {
-                    System.out.println("You decided not to consult the market analyst. Wise choice!");
+                    System.out.println("You decided not to consult the market insider. Wise choice!");
                 }
             } else {
                 System.out.println("Not enough balance ($" + currentPrice + " required)");
             }
         } else {
-            System.out.println("You have exceeded the maximum number of attempts to consult the market analyst.");
+            System.out.println("You have exceeded the maximum number of attempts to consult the market insider.");
         }
     }
 
@@ -545,7 +544,7 @@ public class GameController {
     }
 
     public void randomPriceAlertEvent() {
-        if (gameRandom.nextDouble() < 0.15 && turnsRemaining != 0) {
+        if (gameRandom.nextDouble() < 0.25 && turnsRemaining != 0) {
             priceAlertEvent();
         }
     }
@@ -674,7 +673,7 @@ public class GameController {
         this.positions = new PositionManager(); 
         this.turnsRemaining = MAX_TURNS;
         this.market = new Market();
-        this.marketAnalystAttempts = 3;
+        this.marketInsiderAttempts = 3;
         System.out.println("\nGame reset. Starting a new game...");
     }
 
@@ -698,7 +697,7 @@ public class GameController {
                 out.writeObject(positions.getPositions());
                 out.writeInt(getTurnsRemaining());
                 out.writeObject(market.getCoins());
-                out.writeInt(marketAnalystAttempts);
+                out.writeInt(marketInsiderAttempts);
                 System.out.println("Game saved successfully!");
             } catch (IOException e) {
                 System.out.println("Error saving the game: " + e.getMessage());
@@ -720,7 +719,7 @@ public class GameController {
             positions.setPositions(positionsLoaded);
             setTurnsRemaining(loadedTurns);
             market.setCoins(coinsLoaded);
-            marketAnalystAttempts = in.readInt();
+            marketInsiderAttempts = in.readInt();
             System.out.println("Game loaded successfully!");
         } catch (FileNotFoundException e) {
             System.out.println("No saved game found. Please start a new game.");
@@ -742,7 +741,7 @@ public class GameController {
             positions.setPositions(positionsLoaded);
             setTurnsRemaining(savedTurns);
             market.setCoins(coinsLoaded);
-            marketAnalystAttempts = in.readInt();
+            marketInsiderAttempts = in.readInt();
             System.out.println("Game loaded successfully!");
             startGame();
         } catch (FileNotFoundException e) {
