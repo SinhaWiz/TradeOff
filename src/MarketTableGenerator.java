@@ -46,17 +46,16 @@ public class MarketTableGenerator {
             String ticker = coin.getTicker();
             double price = coin.getPrice();
             
-            // Calculate percentage change
+
             String percentChange = "0.00%";
             if (previousPrices.containsKey(ticker)) {
                 double prevPrice = previousPrices.get(ticker);
                 double change = ((price - prevPrice) / prevPrice) * 100;
 
-                // Format with color and sign
                 if (change >= 0) {
-                    percentChange = String.format("\u001B[32m+%.2f%%\u001B[0m", change); // Green for positive
+                    percentChange = String.format("\u001B[32m+%.2f%%\u001B[0m", change);
                 } else {
-                    percentChange = String.format("\u001B[31m%.2f%%\u001B[0m", change); // Red for negative
+                    percentChange = String.format("\u001B[31m%.2f%%\u001B[0m", change);
                 }
             }
             
@@ -67,8 +66,6 @@ public class MarketTableGenerator {
                     percentChange);
         }
         System.out.println("|_________________________________________________________|");
-        
-        // Store current prices as previous prices for next turn only if updatePreviousPrices is true
         if (updatePreviousPrices) {
             previousPrices = currentPrices;
         }

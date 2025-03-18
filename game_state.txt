@@ -1,5 +1,5 @@
 
-=== Game State at 2025-03-17 08:12:02 ===
+=== Game State at 2025-03-17 08:14:30 ===
 Turns Remaining: 160
 Player Balance: $1000000.00
 Current Positions:
@@ -10,33 +10,4 @@ BNB: $400.00
 XRP: $0.65
 ETH: $3000.00
 ADA: $1.50
-------------------------
-
-=== Game State at 2025-03-18 08:12:14 ===
-Turns Remaining: 159
-Player Balance: $950000.00
-Current Positions:
-LongTrade position: 1.0000 BTC at $50000.00 (P/L: $1064.88)
-Current Market Prices:
-Bitcoin (BTC): $50532.44
-Ethereum (ETH): $3026.33
-Binance Coin (BNB): $400.47
-Solana (SOL): $100.88
-Ripple (XRP): $0.65
-Cardano (ADA): $1.49
-------------------------
-
-=== Game State at 2025-03-18 08:12:27 ===
-Turns Remaining: 158
-Player Balance: $946973.67
-Current Positions:
-LongTrade position: 1.0000 BTC at $50000.00 (P/L: $1151.70)
-ShortTrade position: 1.0000 ETH at $3026.33 (P/L: $125.81)
-Current Market Prices:
-Bitcoin (BTC): $50575.85
-Ethereum (ETH): $2963.43
-Binance Coin (BNB): $374.36
-Solana (SOL): $95.58
-Ripple (XRP): $0.57
-Cardano (ADA): $1.47
 ------------------------
