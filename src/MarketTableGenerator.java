@@ -14,7 +14,6 @@ public class MarketTableGenerator {
         displayTableWithChange(coins, updatePreviousPrices);
     }
 
-    // New method to display simplified table with only names and tickers
     public void displaySimplifiedTable(List<Coin> coins) {
         System.out.println("\n=== Available Coins ===");
         System.out.println();
@@ -29,8 +28,8 @@ public class MarketTableGenerator {
         }
         System.out.println("|________________|___________|");
     }
+
     private void displayTableWithChange(List<Coin> coins, boolean updatePreviousPrices) {
-        // Get current prices
         Map<String, Double> currentPrices = new HashMap<>();
         for (Coin coin : coins) {
             currentPrices.put(coin.getTicker(), coin.getPrice());
@@ -83,7 +82,6 @@ public class MarketTableGenerator {
                 content.append(line).append("\n");
             }
 
-            // Find the last game state section
             String[] sections = content.toString().split("=== Game State at");
             if (sections.length > 0) {
                 // Get the last section
@@ -127,25 +125,19 @@ public class MarketTableGenerator {
 
         return prices;
     }
-    
-    // Method to load previous prices from price history file
+
     public void loadPreviousPrices() {
         try (BufferedReader reader = new BufferedReader(new FileReader("price_history.txt"))) {
             StringBuilder content = new StringBuilder();
             String line;
-            
-            // Read the entire file
+
             while ((line = reader.readLine()) != null) {
                 content.append(line).append("\n");
             }
-            
-            // Find the second-to-last game state section if it exists
+
             String[] sections = content.toString().split("=== Game State at");
             if (sections.length > 2) {
-                // Get the second-to-last section
                 String secondLastSection = "=== Game State at" + sections[sections.length - 2];
-                
-                // Process the section
                 Scanner scanner = new Scanner(secondLastSection);
                 boolean readingPrices = false;
                 
@@ -158,7 +150,6 @@ public class MarketTableGenerator {
                     }
                     
                     if (readingPrices && !line.contains("------------------------")) {
-                        // Parse price line (e.g., "Bitcoin (BTC): $50000.00")
                         String[] parts = line.split("\\(|\\):|\\$");
                         if (parts.length >= 3) {
                             String ticker = parts[1].trim();

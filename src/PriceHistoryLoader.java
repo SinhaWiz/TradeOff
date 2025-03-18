@@ -8,7 +8,6 @@ import java.util.*;
 public class PriceHistoryLoader {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    // Make this method public and static
     public static void init() {
         loadInitialPriceHistory();
     }

@@ -1,7 +1,6 @@
 package src;
 
 import java.io.*;
-import java.time.*;
 import java.util.*;
 
 
@@ -15,7 +14,6 @@ public class CryptoBarGraph {
             return;
         }
 
-        // Extract cryptocurrency names and prices
         String[] cryptocurrencies = priceHistory.get(0).keySet().toArray(new String[0]);
         double[][] prices = new double[priceHistory.size()][cryptocurrencies.length];
 
@@ -26,7 +24,6 @@ public class CryptoBarGraph {
             }
         }
 
-        // Generate and print the graph
         printBarGraph(cryptocurrencies, prices);
     }
 
@@ -34,7 +31,6 @@ public class CryptoBarGraph {
         double[] maxValues = new double[cryptocurrencies.length];
         double[] minValues = new double[cryptocurrencies.length];
 
-        // Calculate max/min values
         for (int j = 0; j < cryptocurrencies.length; j++) {
             double maxVal = Double.MIN_VALUE;
             double minVal = Double.MAX_VALUE;
@@ -47,7 +43,6 @@ public class CryptoBarGraph {
             minValues[j] = minVal;
         }
 
-        // Print the graph
         for (int j = 0; j < cryptocurrencies.length; j++) {
             System.out.println("\n" + cryptocurrencies[j]);
             for (int i = 0; i < prices.length; i++) {

@@ -1,7 +1,4 @@
 package src;
-
-import src.Coin;
-
 import java.io.Serializable;
 
 public abstract class Trade implements Serializable {

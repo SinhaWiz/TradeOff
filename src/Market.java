@@ -11,9 +11,9 @@ public class Market implements Serializable {
     private static final String INITIAL_PRICES_FILE = "initial_prices.txt";
     private static final String PRICE_HISTORY_FILE = "price_history.txt";
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final double BASE_MU = 0.0005;  // Stronger daily drift
-    private static double SIGMA = 0.65; // High volatility factor
-    private static final double DT = 1.0 / 252; // Time step (1 day in trading)
+    private static final double BASE_MU = 0.0005;
+    private static double SIGMA = 0.65;
+    private static final double DT = 1.0 / 252;
 
     public Market() {
         this.coins = new ArrayList<>();
@@ -140,13 +140,12 @@ public class Market implements Serializable {
         for (Coin coin : coins) {
             int changeFactorFlag;
             if (coin.isPossiblePositiveTrend()) {
-                changeFactorFlag = 1;  // Positive trend
+                changeFactorFlag = 1;
             } else if (coin.isPossibleNegativeTrend()) {
-                changeFactorFlag = 0;  // Negative trend
+                changeFactorFlag = 0;
             } else {
-                changeFactorFlag = -1;  // No clear trend
+                changeFactorFlag = -1;
             }
-
 
             predictions.put(coin, changeFactorFlag);
         }

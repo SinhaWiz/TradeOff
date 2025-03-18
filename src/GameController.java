@@ -29,7 +29,6 @@ public class GameController {
         this.gameRandom = new Random();
         PriceHistoryLoader.init();
 
-        // Ensure price_history.txt exists
         try {
             new FileWriter("price_history.txt", true).close();
         } catch (IOException e) {
@@ -204,6 +203,7 @@ public class GameController {
 
         if (marketAnalystAttempts > 0) {
             int currentPrice = 75000;
+
             if(marketAnalystAttempts == 3) {
                 currentPrice = currentPrice ;
             } else if (marketAnalystAttempts == 2) {
@@ -211,6 +211,7 @@ public class GameController {
             } else if(marketAnalystAttempts == 1) {
                 currentPrice = 150000 ;
             }
+
             if (player.getBalance() >= currentPrice) {
                 System.out.println("WARNING: Consulting the black market analyst is a dangerous and costly activity!");
                 System.out.println("His consulting cost is $" + currentPrice);
@@ -264,9 +265,6 @@ public class GameController {
             System.out.println("You have exceeded the maximum number of attempts to consult the market analyst.");
         }
     }
-
-
-
 
     public void displayPositions() {
         List<Trade> currentPositions = positions.getPositions();
@@ -475,7 +473,7 @@ public class GameController {
         turnsRemaining--;
         market.simulateMarketMovement();
         updatePositions();
-        savePriceHistory(); // Ensure this is called to log price history
+        savePriceHistory();
         saveGameState();
     }
 
@@ -485,12 +483,12 @@ public class GameController {
     }
 
     public void skipDay() {
-        if (turnsRemaining%16 == 0) {
+        if (turnsRemaining % 16 == 0) {
             for (int  i = 0; i < 16; i++) {
                 completeTurn();
             }
         } else {
-          int turnsToSkip = turnsRemaining%16;
+          int turnsToSkip = turnsRemaining % 16;
             for (int  i = 0; i < turnsToSkip; i++) {
                 completeTurn();
             }
@@ -503,17 +501,13 @@ public class GameController {
         Iterator<Trade> positionsIterator = listOfPositions.iterator();
         while (positionsIterator.hasNext()) {
             Trade trade = positionsIterator.next();
-            // Update unrealized P/L
             double gainLoss = trade.calcGainLoss();
-            // Check for liquidation in short positions
             if (trade instanceof ShortTrade && gainLoss < -(player.getBalance()/2)) {
                 System.out.println("WARNING: Short position liquidated due to insufficient funds!");
                 player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
                 positionsIterator.remove();
-                // positions.closePosition(positions.getPositions().indexOf(trade));
             } else if (trade instanceof LongTrade && gainLoss < -(player.getBalance()/2)) {
                 System.out.println("WARNING: Long position liquidated due to insufficient funds!");
-                // positions.closePosition(positions.getPositions().indexOf(trade));
                 player.updateBalance(gainLoss + (trade.quantity * trade.entryPrice));
                 positionsIterator.remove();
             }
@@ -629,7 +623,6 @@ public class GameController {
             System.out.println("Better luck next time... if there is a next time.");
         }
 
-        // Display final portfolio
         System.out.println("\n=== Final Portfolio ===");
         for (Map.Entry<Coin, Double> entry : player.getPortfolio().entrySet()) {
             System.out.printf("%s: %.4f (Value: $%.2f)%n",
@@ -638,7 +631,6 @@ public class GameController {
                     entry.getValue() * entry.getKey().getPrice());
         }
 
-        // Save final results to a file
         try (FileWriter writer = new FileWriter("final_results.txt")) {
             writer.write("=== Final Game Results ===\n");
             writer.write("Final Balance: $" + String.format("%.2f", finalBalance) + "\n");
@@ -656,7 +648,6 @@ public class GameController {
             System.out.println("Error saving final results.");
         }
 
-        // Prompt the player to start a new game or exit
         System.out.println("\nWhat would you like to do next?");
         System.out.println("1. Start a New Game");
         System.out.println("2. Exit");
@@ -665,12 +656,10 @@ public class GameController {
         int choice = scanner.nextInt();
         switch (choice) {
             case 1:
-                // Reset the game state and start a new game
                 resetGame();
                 startGame();
                 break;
             case 2:
-                // Exit the game
                 System.out.println("\nThank you for playing! Goodbye!");
                 System.exit(0);
                 break;
@@ -680,13 +669,12 @@ public class GameController {
         }
     }
 
-    // Helper method to reset the game state
     private void resetGame() {
         this.player = new Player(1000000);
         this.positions = new PositionManager(); 
-        this.turnsRemaining = MAX_TURNS; // Reset turns
-        this.market = new Market(); // Reset market
-        this.marketAnalystAttempts = 3; // Reset analyst attempts
+        this.turnsRemaining = MAX_TURNS;
+        this.market = new Market();
+        this.marketAnalystAttempts = 3;
         System.out.println("\nGame reset. Starting a new game...");
     }
 
