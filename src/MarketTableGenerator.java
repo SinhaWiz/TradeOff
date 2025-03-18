@@ -7,10 +7,29 @@ public class MarketTableGenerator {
     private Map<String, Double> previousPrices = new HashMap<>();
 
     public void displayTable(List<Coin> coins) {
-        displayTable(coins, false);
+        displayTable(coins, true);
     }
     
     public void displayTable(List<Coin> coins, boolean updatePreviousPrices) {
+        displayTableWithChange(coins, updatePreviousPrices);
+    }
+
+    // New method to display simplified table with only names and tickers
+    public void displaySimplifiedTable(List<Coin> coins) {
+        System.out.println("\n=== Available Coins ===");
+        System.out.println();
+        System.out.println("_____________________________");
+        System.out.println("|    Coin        |   Ticker  |");
+        System.out.println("|________________|___________|");
+
+        for (Coin coin : coins) {
+            System.out.printf("|  %-12s  |    %-7s|%n",
+                    coin.getName(),
+                    coin.getTicker());
+        }
+        System.out.println("|________________|___________|");
+    }
+    private void displayTableWithChange(List<Coin> coins, boolean updatePreviousPrices) {
         // Get current prices
         Map<String, Double> currentPrices = new HashMap<>();
         for (Coin coin : coins) {
@@ -19,9 +38,9 @@ public class MarketTableGenerator {
 
         System.out.println("\n=== Current Market Prices ===");
         System.out.println();
-        System.out.println("________________________________________________________");
-        System.out.println(String.format("%-15s %-10s %-15s %-10s", "|    Coin", "|   Ticker  |", "   Price    |", "Change   |"));
-        System.out.println("|______________________________________________________|");
+        System.out.println("__________________________________________________________");
+        System.out.println("|    Coin        |   Ticker  |   Price       |  Change    |");
+        System.out.println("|_________________________________________________________|");
 
         for (Coin coin : coins) {
             String ticker = coin.getTicker();
@@ -33,9 +52,6 @@ public class MarketTableGenerator {
                 double prevPrice = previousPrices.get(ticker);
                 double change = ((price - prevPrice) / prevPrice) * 100;
 
-
-  //ahgefgagf
-                //
                 // Format with color and sign
                 if (change >= 0) {
                     percentChange = String.format("\u001B[32m+%.2f%%\u001B[0m", change); // Green for positive
@@ -44,13 +60,13 @@ public class MarketTableGenerator {
                 }
             }
             
-            System.out.printf("|%-14s |    %-6s |  $%-10.2f| %-8s" + "     | " + "\n",
+            System.out.printf("|%-16s|    %-6s |  $%-11.2f |  %-18s |%n",
                     coin.getName(),
                     ticker,
                     price,
                     percentChange);
         }
-        System.out.println("|______________________________________________________|");
+        System.out.println("|_________________________________________________________|");
         
         // Store current prices as previous prices for next turn only if updatePreviousPrices is true
         if (updatePreviousPrices) {
@@ -168,17 +184,5 @@ public class MarketTableGenerator {
             // If there's an error or no previous prices, we'll just use empty map
             // which will result in 0.00% change for the first turn
         }
-    }
-
-    public Map<String, Double> getPreviousPrices() {
-        return previousPrices;
-    }
-
-    public void updatePreviousPrices(List<Coin> coins) {
-        Map<String, Double> currentPrices = new HashMap<>();
-        for (Coin coin : coins) {
-            currentPrices.put(coin.getTicker(), coin.getPrice());
-        }
-        previousPrices = currentPrices;
     }
 }

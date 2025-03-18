@@ -285,7 +285,7 @@ public class GameController {
 
     public boolean openLongPosition() {
         System.out.println("\nAvailable coins:");
-        tableGenerator.displayTable(market.getCoins());
+        tableGenerator.displaySimplifiedTable(market.getCoins());
 
         System.out.print("Enter coin ticker: ");
         String ticker = scanner.next().toUpperCase();
@@ -349,7 +349,7 @@ public class GameController {
 
     private boolean openShortPosition() {
         System.out.println("\nAvailable coins:");
-        tableGenerator.displayTable(market.getCoins());
+        tableGenerator.displaySimplifiedTable(market.getCoins());
 
         System.out.print("Enter coin ticker: ");
         String ticker = scanner.next().toUpperCase();
@@ -460,31 +460,26 @@ public class GameController {
         turnsRemaining--;
         market.simulateMarketMovement();
         updatePositions();
-        tableGenerator.updatePreviousPrices(market.getCoins());
         savePriceHistory(); // Ensure this is called to log price history
         saveGameState();
     }
 
     public void skipTurn() {
         completeTurn();
-        tableGenerator.updatePreviousPrices(market.getCoins());
-        tableGenerator.displayTable(market.getCoins(), true);
         System.out.println("Turn skipped. Market will update and affect your current positions.");
     }
 
     public void skipDay() {
         if (turnsRemaining%16 == 0) {
-            for (int i = 0; i < 16; i++) {
+            for (int  i = 0; i < 16; i++) {
                 completeTurn();
             }
         } else {
-            int turnsToSkip = turnsRemaining%16;
-            for (int i = 0; i < turnsToSkip; i++) {
+          int turnsToSkip = turnsRemaining%16;
+            for (int  i = 0; i < turnsToSkip; i++) {
                 completeTurn();
             }
         }
-        tableGenerator.updatePreviousPrices(market.getCoins());
-        tableGenerator.displayTable(market.getCoins(), true);
         System.out.println("Day skipped. Market will update and affect your current positions.");
     }
 
