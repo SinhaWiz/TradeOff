@@ -42,9 +42,9 @@ public class GameController {
         System.out.println("1. Start New Game");
         System.out.println("2. Load Game");
         System.out.println("3. Exit");
-
-        System.out.print("Enter your choice: ");
         while (true) {
+            System.out.print("Enter your choice: ");
+            try {
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1:
@@ -61,6 +61,12 @@ public class GameController {
                 default:
                     System.out.println("Invalid option. Please enter again.");
                     System.out.print("Enter your choice: ");
+            }
+            }
+            catch (InputMismatchException e)
+            {
+                System.out.println("Invalid input");
+                scanner.nextLine();
             }
         }
     }
