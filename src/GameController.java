@@ -606,12 +606,39 @@ public class GameController {
         System.out.println("Initial Balance: $1,000,000.00");
         System.out.println("Profit/Loss: $" + String.format("%.2f", finalBalance - 1000000));
 
-        if (finalBalance >= 5000000) {
-            System.out.println("\nCongratulations! You've paid off the loan sharks and made a profit!");
+        // Enhanced ending based on the player's final balance
+        if (finalBalance >= 3000000) {
+            System.out.println("\n=== Congratulations! ===");
+            System.out.println("You've done the impossible! Not only did you pay off the loan sharks, but you also made a massive profit.");
+            System.out.println("The loan sharks are impressed by your skills and even offer you a partnership in their 'legitimate' business ventures.");
+            System.out.println("You walk away with your head held high, knowing you've beaten the odds and secured your future.");
+            System.out.println("But remember... the crypto world is unpredictable. Will you stay in the game, or cash out and live the good life?");
+            System.out.println("The choice is yours.");
+        } else if (finalBalance >= 1000000) {
+            System.out.println("\n=== Close Call! ===");
+            System.out.println("You managed to pay off the loan sharks, but just barely.");
+            System.out.println("They let you go with a warning: 'Don't mess with us again.'");
+            System.out.println("You breathe a sigh of relief, knowing you survived... but at what cost?");
+            System.out.println("The experience has left you shaken, but wiser. Maybe it's time to step away from the crypto world for a while.");
         } else {
-            System.out.println("\nGame Over! The loan sharks are coming for you...");
+            System.out.println("\n=== Game Over! ===");
+            System.out.println("The loan sharks have come to collect their dues... and you don't have enough.");
+            System.out.println("They take everything you have, leaving you with nothing but the clothes on your back.");
+            System.out.println("As they drag you away, you realize the true cost of gambling with borrowed money.");
+            System.out.println("The crypto world is unforgiving, and now you're paying the ultimate price.");
+            System.out.println("Better luck next time... if there is a next time.");
         }
-        System.out.println("\nFinal Portfolio:");
+
+        // Display final portfolio
+        System.out.println("\n=== Final Portfolio ===");
+        for (Map.Entry<Coin, Double> entry : player.getPortfolio().entrySet()) {
+            System.out.printf("%s: %.4f (Value: $%.2f)%n",
+                    entry.getKey().getTicker(),
+                    entry.getValue(),
+                    entry.getValue() * entry.getKey().getPrice());
+        }
+
+        // Save final results to a file
         try (FileWriter writer = new FileWriter("final_results.txt")) {
             writer.write("=== Final Game Results ===\n");
             writer.write("Final Balance: $" + String.format("%.2f", finalBalance) + "\n");
@@ -628,6 +655,39 @@ public class GameController {
         } catch (IOException e) {
             System.out.println("Error saving final results.");
         }
+
+        // Prompt the player to start a new game or exit
+        System.out.println("\nWhat would you like to do next?");
+        System.out.println("1. Start a New Game");
+        System.out.println("2. Exit");
+        System.out.print("Enter your choice: ");
+
+        int choice = scanner.nextInt();
+        switch (choice) {
+            case 1:
+                // Reset the game state and start a new game
+                resetGame();
+                startGame();
+                break;
+            case 2:
+                // Exit the game
+                System.out.println("\nThank you for playing! Goodbye!");
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid choice. Exiting the game.");
+                System.exit(0);
+        }
+    }
+
+    // Helper method to reset the game state
+    private void resetGame() {
+        this.player = new Player(1000000);
+        this.positions = new PositionManager(); 
+        this.turnsRemaining = MAX_TURNS; // Reset turns
+        this.market = new Market(); // Reset market
+        this.marketAnalystAttempts = 3; // Reset analyst attempts
+        System.out.println("\nGame reset. Starting a new game...");
     }
 
     public void clearConsole(){
