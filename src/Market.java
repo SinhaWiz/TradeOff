@@ -56,7 +56,7 @@ public class Market implements Serializable {
     private void setTrends() {
         for (Coin coin : coins) {
             if (!coin.isPossibleNegativeTrend() && !coin.isPossiblePositiveTrend()) {
-                if (random.nextDouble() < 0.6) {
+                if (random.nextDouble() < 0.7) {
                     if (random.nextBoolean()) {
                         coin.setPossiblePositiveTrend(true);
                     } else {
