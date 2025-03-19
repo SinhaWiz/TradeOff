@@ -7,7 +7,6 @@ public class GameController {
     private Player player;
     private Market market;
     private PositionManager positions;
-    private SaveManager saveManager;
     private MarketTableGenerator tableGenerator;
     private Scanner scanner;
     private int turnsRemaining;
@@ -21,7 +20,6 @@ public class GameController {
         this.player = new Player(1000000); // Start with $1,000,000 (loan shark money)
         this.market = new Market();
         this.positions = new PositionManager();
-        this.saveManager = new SaveManager();
         this.tableGenerator = new MarketTableGenerator();
         this.tableGenerator.loadPreviousPrices(); // Load previous prices for percentage change calculation
         this.scanner = new Scanner(System.in);
