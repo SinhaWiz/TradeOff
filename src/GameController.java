@@ -76,10 +76,8 @@ public class GameController {
             displayMenu();
             boolean turnUsed = handleAction();
             if(turnUsed) {
-                completeTurn();
                 clearConsole();
-                randomPriceAlertEvent();
-                randomVolatilityEvent();
+                completeTurn();
             }
         }
         displayFinalResults();
@@ -496,6 +494,8 @@ public class GameController {
         updatePositions();
         savePriceHistory();
         saveGameState();
+        randomPriceAlertEvent();
+        randomVolatilityEvent();
     }
 
     public void skipTurn() {
@@ -566,7 +566,7 @@ public class GameController {
     }
 
     public void randomPriceAlertEvent() {
-        if (gameRandom.nextDouble() < 0.25 && turnsRemaining != 0) {
+        if (gameRandom.nextDouble() < 0.2 && turnsRemaining != 0) {
             priceAlertEvent();
         }
     }
