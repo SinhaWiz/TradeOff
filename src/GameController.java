@@ -42,23 +42,23 @@ public class GameController {
         while (true) {
             System.out.print("Enter your choice: ");
             try {
-            int choice = scanner.nextInt();
-            switch (choice) {
-                case 1:
-                    clearConsole();
-                    startGame();
-                    break;
-                case 2:
-                    clearConsole();
-                    loadGameStartMenu();
-                    break;
-                case 3:
-                    exitGame();
-                    break;
-                default:
-                    System.out.println("Invalid option. Please enter again.");
-                    System.out.print("Enter your choice: ");
-            }
+                int choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        clearConsole();
+                        startGame();
+                        break;
+                    case 2:
+                        clearConsole();
+                        loadGameStartMenu();
+                        break;
+                    case 3:
+                        exitGame();
+                        break;
+                    default:
+                        System.out.println("Invalid option. Please enter again.");
+                        System.out.print("Enter your choice: ");
+                }
             }
             catch (InputMismatchException e)
             {
@@ -253,7 +253,6 @@ public class GameController {
                         System.out.println("You are now out of jail. Be careful next time!");
                     } else if (marketInsiderAttempts == 0) {
                         // Third attempt: Get random predictions (accurate or misleading)
-                        System.out.println("The insider seems unsure this time...");
                         Map<Coin, Integer> predictions = market.predictNextMovements();
                         for (Map.Entry<Coin, Integer> entry : predictions.entrySet()) {
                             Coin coin = entry.getKey();
