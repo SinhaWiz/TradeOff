@@ -566,7 +566,7 @@ public class GameController {
     }
 
     public void randomPriceAlertEvent() {
-        if (gameRandom.nextDouble() < 0.2 && turnsRemaining != 0) {
+        if (gameRandom.nextDouble() < 0.15 && turnsRemaining != 0) {
             priceAlertEvent();
         }
     }
