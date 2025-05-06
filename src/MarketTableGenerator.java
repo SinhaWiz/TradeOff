@@ -49,51 +49,10 @@ public class MarketTableGenerator {
 
     private Map<String, Double> getCurrentPrices() {
         Map<String, Double> prices = new HashMap<>();
-
-        try (BufferedReader reader = new BufferedReader(new FileReader("game_state.txt"))) {
-            StringBuilder content = new StringBuilder();
-            String line;
-            // Read the entire file
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            String[] sections = content.toString().split("=== Game State at");
-            if (sections.length > 0) {
-                // Get the last section
-                String lastSection = "=== Game State at" + sections[sections.length - 1];
-
-                Scanner scanner = new Scanner(lastSection);
-                boolean readingPrices = false;
-
-                while (scanner.hasNextLine()) {
-                    line = scanner.nextLine();
-                    if (line.contains("Current Market Prices:")) {
-                        readingPrices = true;
-                        continue;
-                    }
-                    if (readingPrices && !line.contains("------------------------")) {
-                        // Parse price line (e.g., "BTC: $50000.00")
-                        String[] parts = line.trim().split(":|\\$");
-                        if (parts.length >= 2) {
-                            String ticker = parts[0].trim();
-                            try {
-                                double price = Double.parseDouble(parts[parts.length-1].trim());
-                                prices.put(ticker, price);
-                            } catch (NumberFormatException e) {
-
-                            }
-                        }
-                    }
-                    if (line.contains("------------------------")) {
-                        break;
-                    }
-                }
-                scanner.close();
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading game state: " + e.getMessage());
-        }
+        TextFileReader tr = new TextFileReader();
+        prices  = tr.currentPriceReader(prices);
         return prices;
+
     }
     public void loadPreviousPrices() {
         TextFileReader tr = new TextFileReader();
