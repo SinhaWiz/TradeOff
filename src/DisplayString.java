@@ -56,5 +56,19 @@ public class DisplayString {
         System.out.println("If you get lucky, maybe they'll let you off the hook...");
         System.out.println("If...");
     }
+    static void coinTableString(){
+        System.out.println("\n=== Available Coins ===");
+        System.out.println();
+        System.out.println("_____________________________");
+        System.out.println("|    Coin        |   Ticker  |");
+        System.out.println("|________________|___________|");
+    }
+    static void marketTableString(){
+        System.out.println("\n=== Current Market Prices ===");
+        System.out.println();
+        System.out.println("__________________________________________________________");
+        System.out.println("|    Coin        |   Ticker  |   Price       |  Change    |");
+        System.out.println("|_________________________________________________________|");
+    }
 
 }

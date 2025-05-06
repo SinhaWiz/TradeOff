@@ -16,7 +16,6 @@ public class TradeRecord implements Serializable {
         this.quantity = qty;
         this.entryPrice = price;
     }
-
     // Getters
     public String getType() {
         return type;

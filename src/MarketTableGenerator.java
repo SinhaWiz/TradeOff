@@ -15,12 +15,7 @@ public class MarketTableGenerator {
     }
 
     public void displaySimplifiedTable(List<Coin> coins) {
-        System.out.println("\n=== Available Coins ===");
-        System.out.println();
-        System.out.println("_____________________________");
-        System.out.println("|    Coin        |   Ticker  |");
-        System.out.println("|________________|___________|");
-
+        DisplayString.coinTableString();
         for (Coin coin : coins) {
             System.out.printf("|  %-12s  |    %-7s|%n",
                     coin.getName(),
@@ -34,28 +29,16 @@ public class MarketTableGenerator {
         for (Coin coin : coins) {
             currentPrices.put(coin.getTicker(), coin.getPrice());
         }
-
-        System.out.println("\n=== Current Market Prices ===");
-        System.out.println();
-        System.out.println("__________________________________________________________");
-        System.out.println("|    Coin        |   Ticker  |   Price       |  Change    |");
-        System.out.println("|_________________________________________________________|");
-
+        DisplayString.marketTableString();
         for (Coin coin : coins) {
             String ticker = coin.getTicker();
             double price = coin.getPrice();
-            
-
             String percentChange = "0.00%";
             if (previousPrices.containsKey(ticker)) {
                 double prevPrice = previousPrices.get(ticker);
                 double change = ((price - prevPrice) / prevPrice) * 100;
+                percentChange = String.format(change>=0?"\u001B[32m+%.2f%%\u001B[0m":"\u001B[31m%.2f%%\u001B[0m", change);
 
-                if (change >= 0) {
-                    percentChange = String.format("\u001B[32m+%.2f%%\u001B[0m", change);
-                } else {
-                    percentChange = String.format("\u001B[31m%.2f%%\u001B[0m", change);
-                }
             }
             
             System.out.printf("|%-16s|    %-6s |  $%-11.2f |  %-18s |%n",
